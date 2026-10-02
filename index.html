@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Map Builder — Free Online Interactive Map Creator | Universe Tools</title>
+  <meta name="description" content="Create interactive maps with custom markers, routes and layers free online. Powered by Leaflet.js and OpenStreetMap. No API key or sign-up required." />
+  <meta name="keywords" content="online map builder free, interactive map creator, custom map markers, leaflet map tool, openstreetmap online editor, free map maker" />
+  <link rel="canonical" href="https://map.universeinvedors.tech/" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Map Builder — Free Interactive Online Map Maker" />
+  <meta property="og:description" content="Create interactive maps with markers and routes free online. No API key. Powered by OpenStreetMap." />
+  <meta property="og:url" content="https://map.universeinvedors.tech/" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0d1117" />
+  <link rel="icon" href="https://universeinvedors.tech/favicon.ico" sizes="any" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Map Builder","description":"Free online interactive map builder with custom markers. Powered by Leaflet.js and OpenStreetMap.","url":"https://map.universeinvedors.tech","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <meta name="google-adsense-account" content="ca-pub-8759032363251002" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8759032363251002" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d1117;--surface:#161b22;--border:rgba(255,255,255,.08);--text:#e6edf3;--muted:#8b949e;--green:#5ee6a8;--font:'Inter',system-ui,sans-serif}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+    .topbar{display:flex;align-items:center;gap:.75rem;padding:.55rem .85rem;border-bottom:1px solid var(--border);background:rgba(13,17,23,.97);backdrop-filter:blur(12px);z-index:1000;flex-shrink:0;flex-wrap:wrap}
+    .logo{font-size:.82rem;font-weight:700;white-space:nowrap}
+    .search-row{display:flex;gap:.4rem;flex:1;min-width:180px}
+    .search-row input{flex:1;padding:.4rem .7rem;border-radius:7px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:.82rem;font-family:inherit;outline:none}
+    .search-row input:focus{border-color:var(--green)}
+    .btn{padding:.35rem .75rem;border-radius:7px;font-size:.76rem;font-weight:600;border:none;cursor:pointer;transition:all .15s;white-space:nowrap}
+    .btn-green{background:var(--green);color:#000}
+    .btn-ghost{background:rgba(255,255,255,.07);color:var(--muted);border:1px solid var(--border)}
+    .btn-ghost:hover{color:var(--text)}
+    .btn-add{background:rgba(94,230,168,.12);color:var(--green);border:1px solid rgba(94,230,168,.3)}
+    .btn-add.active{background:rgba(94,230,168,.25)}
+    .main{display:flex;flex:1;overflow:hidden}
+    #map{flex:1}
+    .sidebar{width:220px;shrink:0;overflow-y:auto;border-left:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column}
+    .sidebar-header{padding:.6rem .75rem;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
+    .marker-list{flex:1;padding:.5rem}
+    .marker-item{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;padding:.6rem .5rem;border-radius:8px;margin-bottom:.3rem;background:rgba(255,255,255,.03);border:1px solid var(--border)}
+    .marker-item p{font-size:.78rem;font-weight:600;margin-bottom:.15rem}
+    .marker-item small{font-size:.68rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+    .del-btn{font-size:.7rem;color:#ef4444;background:none;border:none;cursor:pointer;flex-shrink:0;padding:.15rem}
+    .empty-msg{text-align:center;padding:1.5rem .5rem;font-size:.78rem;color:var(--muted)}
+    .attr{padding:.3rem .5rem;font-size:.65rem;color:var(--muted);border-top:1px solid var(--border);flex-shrink:0}
+    .attr a{color:var(--green)}
+    .count-badge{background:rgba(94,230,168,.12);color:var(--green);font-size:.68rem;font-weight:700;padding:.1rem .4rem;border-radius:100px}
+    @media(max-width:580px){.sidebar{display:none}}
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">🗺️ <a href="https://universeinvedors.tech/tools" style="color:inherit;text-decoration:none">Universe Tools</a> / Map Builder</div>
+  <div class="search-row">
+    <input type="text" id="searchInput" placeholder="Search location…" onkeydown="if(event.key==='Enter')searchLocation()">
+    <button class="btn btn-ghost" onclick="searchLocation()" id="searchBtn">Go</button>
+  </div>
+  <button class="btn btn-add" id="addBtn" onclick="toggleAdd()">+ Add Marker</button>
+  <button class="btn btn-green" onclick="exportJSON()" id="exportBtn" style="display:none">↓ Export JSON</button>
+</header>
+
+<main class="main">
+  <div id="map"></div>
+  <aside class="sidebar">
+    <div class="sidebar-header">Markers <span class="count-badge" id="markerCount">0</span></div>
+    <div class="marker-list" id="markerList"><p class="empty-msg">No markers yet.<br>Click "+ Add Marker" then click the map.</p></div>
+    <div class="attr">Map © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors · <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a></div>
+  </aside>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// Fix Leaflet default icons
+delete L.Icon.Default.prototype._getIconUrl
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+})
+
+const map = L.map('map').setView([20, 0], 2)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  maxZoom: 19,
+}).addTo(map)
+
+let markers = [], nextId = 1, addMode = false
+
+function toggleAdd() {
+  addMode = !addMode
+  const btn = document.getElementById('addBtn')
+  btn.textContent = addMode ? '📍 Click map to place…' : '+ Add Marker'
+  btn.classList.toggle('active', addMode)
+  map.getContainer().style.cursor = addMode ? 'crosshair' : ''
+}
+
+map.on('click', e => {
+  if (!addMode) return
+  const id = nextId++
+  const label = `Marker ${id}`
+  const m = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map)
+    .bindPopup(`<b>${label}</b><br>${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`).openPopup()
+  markers.push({ id, lat: e.latlng.lat, lng: e.latlng.lng, label, leaflet: m })
+  renderList()
+  toggleAdd()
+})
+
+function removeMarker(id) {
+  const idx = markers.findIndex(m => m.id === id)
+  if (idx === -1) return
+  markers[idx].leaflet.remove()
+  markers.splice(idx, 1)
+  renderList()
+}
+
+function renderList() {
+  const list = document.getElementById('markerList')
+  document.getElementById('markerCount').textContent = markers.length
+  document.getElementById('exportBtn').style.display = markers.length ? '' : 'none'
+  if (!markers.length) { list.innerHTML = '<p class="empty-msg">No markers yet.<br>Click "+ Add Marker" then click the map.</p>'; return }
+  list.innerHTML = markers.map(m => `
+    <div class="marker-item">
+      <div><p>${m.label}</p><small>${m.lat.toFixed(4)}, ${m.lng.toFixed(4)}</small></div>
+      <button class="del-btn" onclick="removeMarker(${m.id})">✕</button>
+    </div>`).join('')
+}
+
+async function searchLocation() {
+  const q = document.getElementById('searchInput').value.trim()
+  if (!q) return
+  const btn = document.getElementById('searchBtn')
+  btn.textContent = '…'
+  try {
+    const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&limit=1`)
+    const d = await r.json()
+    if (d.length) map.setView([parseFloat(d[0].lat), parseFloat(d[0].lon)], 13)
+  } catch(e) {}
+  btn.textContent = 'Go'
+}
+
+function exportJSON() {
+  const data = markers.map(({ id, lat, lng, label }) => ({ id, lat, lng, label }))
+  const a = document.createElement('a')
+  a.href = 'data:application/json,' + encodeURIComponent(JSON.stringify(data, null, 2))
+  a.download = 'markers.json'
+  a.click()
+}
+</script>
+</body>
+</html>
