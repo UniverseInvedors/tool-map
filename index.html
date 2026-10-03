@@ -1,16 +1,15 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Map Builder — Free Online Interactive Map Creator with Markers, Routes and Layers | Universe Invedors Tools</title>
-<meta name="description" content="Build interactive maps with custom markers, routes, polygons and layers free online. Powered by Leaflet.js and OpenStreetMap. Measure distances, search locations, export GeoJSON. No API key."/>
-<meta name="keywords" content="free map maker online,interactive map creator,custom marker map,leaflet map editor,route planner free,measure distance map,openstreetmap editor,geojson export"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Map Studio — Draw, Route, Heatmap, Cluster, Measure, GeoJSON, Multi-layer | Universe Invedors</title>
+<meta name="description" content="Free online map studio using Leaflet. Draw markers, polylines, polygons, circles. Plan routes with OSRM. Render heatmaps, cluster markers. Edit GeoJSON, measure distances and areas."/>
+<meta name="keywords" content="online map builder,draw on map,Leaflet map editor,GeoJSON editor,heatmap tool online,route planner,measure distance map,marker clustering,OpenStreetMap tools"/>
 <link rel="canonical" href="https://map.universeinvedors.tech/"/>
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large"/>
 <meta name="author" content="Universe Invedors"/>
-<meta property="og:title" content="Map Builder — Free Interactive Map Creator with Routes and Layers"/>
-<meta property="og:description" content="Create interactive maps with markers, routes, polygons. Measure distances. Export GeoJSON. Leaflet + OpenStreetMap. Free."/>
+<meta property="og:title" content="Map Studio — Draw, Route, Heatmap, GeoJSON — Free Online"/>
+<meta property="og:description" content="Leaflet-based map studio. Draw features, plan routes, render heatmaps, edit GeoJSON, measure distances."/>
 <meta property="og:url" content="https://map.universeinvedors.tech/"/>
 <meta property="og:type" content="website"/>
 <meta property="og:image" content="https://universeinvedors.tech/og-image.jpg"/>
@@ -22,386 +21,886 @@
 <meta name="theme-color" content="#090c13"/>
 <meta name="google-adsense-account" content="ca-pub-8759032363251002"/>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8759032363251002" crossorigin="anonymous"></script>
-<script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Map Builder","url":"https://map.universeinvedors.tech","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Universe Invedors","url":"https://universeinvedors.tech"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Universe Invedors","item":"https://universeinvedors.tech"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://universeinvedors.tech/tools"},{"@type":"ListItem","position":3,"name":"Map Builder","item":"https://map.universeinvedors.tech"}]}]</script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Map Studio","url":"https://map.universeinvedors.tech","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Draw markers, polylines, polygons, circles","6 tile layers","Marker clustering","Route planner with OSRM","Heatmap with CSV import","GeoJSON editor","Measure distance and area","Export GeoJSON/KML/CSV"],"publisher":{"@type":"Organization","name":"Universe Invedors","url":"https://universeinvedors.tech"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Universe Invedors","item":"https://universeinvedors.tech"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://universeinvedors.tech/tools"},{"@type":"ListItem","position":3,"name":"Map Studio","item":"https://map.universeinvedors.tech"}]}]</script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#090c13;--surf:#0f1420;--elev:#141b28;--card:#1a2235;--inp:#111827;
+  --bg:#090c13;--surf:#0d1117;--elev:#141b28;--card:#1a2235;--inp:#111827;
   --t1:#f0f4ff;--t2:#a8b5cc;--t3:#64748b;--t4:#3d4f6e;
-  --acc:#5ee6a8;--acc-h:#34d399;--acc-glow:rgba(94,230,168,.25);
-  --blue:#3b82f6;--violet:#8b5cf6;--orange:#f97316;--red:#ef4444;
-  --border:rgba(255,255,255,.07);--bh:rgba(255,255,255,.14);
-  --font:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
-  --mono:'JetBrains Mono','Fira Code',Consolas,monospace;
-  --r:10px;--th:52px;--sw:260px;--tr:180ms cubic-bezier(.4,0,.2,1);
+  --acc:#5ee6a8;--acc-h:#6ee7b7;--acc-glow:rgba(94,230,168,.22);
+  --green:#10b981;--blue:#3b82f6;--red:#ef4444;--orange:#f97316;
+  --border:rgba(255,255,255,.07);--bh:rgba(255,255,255,.13);
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --mono:'Cascadia Code',Consolas,monospace;
+  --r:8px;--th:50px;--sw:240px;--tr:160ms cubic-bezier(.4,0,.2,1);
 }
-html{font-size:16px;-webkit-text-size-adjust:100%}
+html{font-size:16px}
 body{font-family:var(--font);background:var(--bg);color:var(--t1);height:100dvh;display:flex;flex-direction:column;overflow:hidden;-webkit-font-smoothing:antialiased}
-::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.22)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
 
-/* Topbar */
-.tb{height:var(--th);background:rgba(9,12,19,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;padding:0 .85rem;flex-shrink:0;z-index:500}
-.logo{display:flex;align-items:center;gap:.4rem;font-size:.82rem;font-weight:700;color:var(--t1);text-decoration:none;white-space:nowrap}
-.logo:hover{color:var(--acc-h);text-decoration:none}
+/* TOPBAR */
+.topbar{height:var(--th);background:rgba(9,12,19,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;padding:0 .75rem;flex-shrink:0;z-index:1000}
+.logo{font-size:.82rem;font-weight:700;color:var(--t1);text-decoration:none;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:.4rem}
+.logo:hover{color:var(--acc-h)}
+.etabs{display:flex;gap:.1rem;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--r);padding:3px;flex-shrink:1;overflow-x:auto}
+.et{padding:.26rem .65rem;border-radius:6px;font-size:.72rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--t3);white-space:nowrap;transition:all var(--tr)}
+.et:hover{background:rgba(255,255,255,.06);color:var(--t2)}
+.et.active{background:var(--acc);color:#000;box-shadow:0 0 10px var(--acc-glow)}
 .sp{flex:1}
-.btn{display:inline-flex;align-items:center;gap:.35rem;padding:.38rem .85rem;border-radius:var(--r);font-size:.75rem;font-weight:600;cursor:pointer;border:none;transition:all var(--tr);white-space:nowrap}
-.bg{background:rgba(255,255,255,.05);color:var(--t2);border:1px solid var(--border)}
-.bg:hover{background:rgba(255,255,255,.09);border-color:var(--bh);color:var(--t1)}
-.bp{background:var(--acc);color:#000}
-.bp:hover{background:var(--acc-h)}
-.bsm{padding:.26rem .6rem;font-size:.68rem}
-.btn-mode{background:rgba(94,230,168,.1);color:var(--acc);border:1px solid rgba(94,230,168,.3)}
-.btn-mode:hover{background:rgba(94,230,168,.18)}
-.btn-mode.active{background:var(--acc);color:#000}
-/* Search */
-.search-row{display:flex;gap:.4rem;flex:1;max-width:400px}
-.search-row input{flex:1;padding:.4rem .7rem;background:var(--inp);border:1px solid var(--border);border-radius:var(--r);color:var(--t1);font-size:.82rem;outline:none;transition:border-color var(--tr)}
-.search-row input:focus{border-color:rgba(94,230,168,.4)}
-/* Map */
-.main{display:flex;flex:1;overflow:hidden}
-#map{flex:1;z-index:1}
-/* Sidebar */
-.sb{width:var(--sw);background:var(--surf);border-left:1px solid var(--border);display:flex;flex-direction:column;z-index:100;overflow:hidden}
-.sb-header{padding:.55rem .75rem;border-bottom:1px solid var(--border);font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);display:flex;align-items:center;justify-content:space-between}
-.sb-tabs{display:flex;border-bottom:1px solid var(--border)}
-.sbt{flex:1;padding:.42rem;font-size:.72rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--t3);border-bottom:2px solid transparent;transition:all var(--tr)}
-.sbt:hover{color:var(--t2)}
-.sbt.active{color:var(--acc-h);border-bottom-color:var(--acc)}
-.sb-body{flex:1;overflow-y:auto;padding:.6rem}
-/* Layer items */
-.layer-item{display:flex;align-items:center;justify-content:space-between;padding:.5rem .55rem;border-radius:8px;background:var(--card);border:1px solid var(--border);margin-bottom:.3rem}
-.layer-info{flex:1;min-width:0}
-.layer-name{font-size:.78rem;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.layer-meta{font-size:.65rem;color:var(--t3);margin-top:.1rem;font-family:var(--mono)}
-.layer-actions{display:flex;gap:.25rem;flex-shrink:0}
-.icon-btn{width:26px;height:26px;border-radius:6px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--t3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.78rem;transition:all var(--tr)}
-.icon-btn:hover{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:#f87171}
-/* Properties */
-.prop-row{margin-bottom:.65rem}
-.prop-label{font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--t3);margin-bottom:.28rem;display:block}
-.prop-input{width:100%;padding:.42rem .65rem;background:var(--inp);border:1px solid var(--border);border-radius:var(--r);color:var(--t1);font-size:.8rem;outline:none;transition:border-color var(--tr)}
-.prop-input:focus{border-color:rgba(94,230,168,.4)}
-/* Stats */
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
-.stat-card{padding:.65rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r);text-align:center}
-.stat-val{font-size:1.15rem;font-weight:800;color:var(--acc-h)}
-.stat-lbl{font-size:.65rem;color:var(--t3);margin-top:.15rem}
-/* Mode bar */
-.mode-bar{display:flex;align-items:center;gap:.3rem;padding:.4rem .85rem;background:var(--surf);border-bottom:1px solid var(--border);flex-shrink:0;overflow-x:auto}
-/* Statusbar */
-.statusbar{display:flex;align-items:center;gap:.75rem;padding:.25rem .85rem;background:var(--surf);border-top:1px solid var(--border);font-size:.68rem;color:var(--t3);flex-shrink:0}
-.sdot{width:6px;height:6px;border-radius:50%;background:var(--green,var(--acc));animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.seo-footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.3rem .75rem;padding:.4rem .85rem;border-top:1px solid var(--border);background:var(--surf);font-size:.67rem;color:var(--t3);flex-shrink:0}
-.seo-footer a{color:var(--t3)}.seo-footer a:hover{color:var(--t2)}
-.sfl{display:flex;flex-wrap:wrap;gap:.2rem .6rem}
-.toasts{position:fixed;bottom:1rem;right:1rem;z-index:999;display:flex;flex-direction:column;gap:.4rem;pointer-events:none}
-.toast{padding:.55rem .9rem;border-radius:var(--r);font-size:.75rem;font-weight:600;background:var(--card);border:1px solid var(--border);color:var(--t1);box-shadow:0 8px 32px rgba(0,0,0,.5);animation:tin .22s ease}
-.toast.ok{border-color:rgba(94,230,168,.3);color:var(--acc)}.toast.err{border-color:rgba(239,68,68,.3);color:#f87171}
+.btn{display:inline-flex;align-items:center;gap:.35rem;padding:.32rem .75rem;border-radius:var(--r);font-size:.73rem;font-weight:600;cursor:pointer;border:none;transition:all var(--tr);white-space:nowrap}
+.bg{background:rgba(255,255,255,.05);color:var(--t2);border:1px solid var(--border)}.bg:hover{background:rgba(255,255,255,.09);border-color:var(--bh);color:var(--t1)}
+.bp{background:var(--acc);color:#000}.bp:hover{background:var(--acc-h)}
+.bsm{padding:.22rem .55rem;font-size:.68rem}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* LAYOUT */
+.main{display:flex;flex:1;overflow:hidden;position:relative}
+.sidebar{width:var(--sw);background:var(--surf);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;z-index:500;display:flex;flex-direction:column}
+.map-area{flex:1;position:relative}
+#map{width:100%;height:100%;z-index:1}
+
+/* SIDEBAR CONTENT */
+.spanel{display:none;flex-direction:column;gap:.3rem;padding:.6rem .5rem}
+.spanel.active{display:flex}
+.sec{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t4);padding:.35rem .1rem .1rem}
+.fl{font-size:.68rem;font-weight:700;color:var(--t3);margin-bottom:.18rem;display:flex;justify-content:space-between}
+.fi{width:100%;padding:.35rem .55rem;background:var(--inp);border:1px solid var(--border);border-radius:var(--r);color:var(--t1);font-size:.78rem;outline:none;margin-bottom:.3rem}
+.fi:focus{border-color:rgba(94,230,168,.5)}
+.fsel{width:100%;padding:.35rem .55rem;background:var(--inp);border:1px solid var(--border);border-radius:var(--r);color:var(--t1);font-size:.78rem;outline:none;cursor:pointer;margin-bottom:.3rem}
+.fsel:focus{border-color:rgba(94,230,168,.5)}
+.frange{width:100%;accent-color:var(--acc);height:4px;margin-bottom:.35rem}
+.fta{width:100%;padding:.5rem .55rem;background:var(--inp);border:1px solid var(--border);border-radius:var(--r);color:var(--t1);font-family:var(--mono);font-size:.72rem;resize:vertical;min-height:120px;outline:none;margin-bottom:.3rem;line-height:1.5}
+.fta:focus{border-color:rgba(94,230,168,.5)}
+
+/* DRAW TOOL GRID */
+.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:.25rem;margin-bottom:.35rem}
+.tool-btn{padding:.4rem .25rem;background:var(--card);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:.66rem;font-weight:600;color:var(--t3);text-align:center;transition:all var(--tr)}
+.tool-btn:hover{background:rgba(94,230,168,.08);border-color:rgba(94,230,168,.3)}
+.tool-btn.active{background:rgba(94,230,168,.14);border-color:rgba(94,230,168,.45);color:var(--acc-h)}
+
+/* LAYER ITEMS */
+.layer-item{display:flex;align-items:center;gap:.4rem;padding:.3rem .4rem;background:var(--card);border:1px solid var(--border);border-radius:6px;margin-bottom:.25rem;font-size:.72rem;color:var(--t2)}
+.layer-item input[type=checkbox]{accent-color:var(--acc)}
+.layer-item .del{margin-left:auto;cursor:pointer;color:var(--t4)}.layer-item .del:hover{color:var(--red)}
+
+/* TILE LAYER GRID */
+.tile-grid{display:grid;grid-template-columns:1fr 1fr;gap:.25rem;margin-bottom:.35rem}
+.tile-btn{padding:.35rem .25rem;background:var(--card);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:.62rem;font-weight:600;color:var(--t3);text-align:center;transition:all var(--tr)}
+.tile-btn:hover{border-color:rgba(94,230,168,.3)}
+.tile-btn.active{border-color:var(--acc);background:rgba(94,230,168,.12);color:var(--acc-h)}
+
+/* WAYPOINTS */
+.wp-item{display:flex;align-items:center;gap:.4rem;padding:.3rem .4rem;background:var(--card);border:1px solid var(--border);border-radius:6px;margin-bottom:.25rem;font-size:.72rem;color:var(--t2)}
+.wp-num{width:18px;height:18px;border-radius:50%;background:var(--acc);color:#000;font-size:.6rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* MEASUREMENT */
+.meas-result{background:var(--card);border:1px solid rgba(94,230,168,.2);border-radius:var(--r);padding:.55rem;margin:.3rem 0;font-size:.8rem}
+
+/* INFO PANEL */
+.coord-display{position:absolute;bottom:2.5rem;right:.5rem;background:rgba(9,12,19,.9);border:1px solid var(--border);border-radius:6px;padding:.3rem .6rem;font-size:.68rem;color:var(--t2);z-index:500;pointer-events:none}
+
+/* STATUS BAR */
+.statusbar{display:flex;align-items:center;gap:.75rem;padding:.22rem .75rem;background:var(--surf);border-top:1px solid var(--border);font-size:.67rem;color:var(--t3);flex-shrink:0;overflow-x:auto;z-index:500}
+.sb-sep{color:var(--t4)}
+
+/* FOOTER */
+.seo-footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.3rem .75rem;padding:.35rem .75rem;border-top:1px solid var(--border);background:var(--surf);font-size:.65rem;color:var(--t3);flex-shrink:0;z-index:500}
+.seo-footer a{color:var(--t3);text-decoration:none}.seo-footer a:hover{color:var(--t2)}
+.sf-links{display:flex;flex-wrap:wrap;gap:.2rem .6rem}
+
+/* TOASTS */
+.toasts{position:fixed;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:.4rem;pointer-events:none;align-items:center}
+.toast{padding:.5rem .85rem;border-radius:var(--r);font-size:.75rem;font-weight:600;background:var(--card);border:1px solid var(--border);color:var(--t1);box-shadow:0 6px 24px rgba(0,0,0,.5);animation:tin .2s ease}
+.toast.ok{border-color:rgba(16,185,129,.35);color:var(--green)}.toast.err{border-color:rgba(239,68,68,.35);color:#f87171}.toast.info{border-color:rgba(94,230,168,.35);color:var(--acc-h)}
 @keyframes tin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
 /* Leaflet dark overrides */
-.leaflet-popup-content-wrapper{background:var(--card);color:var(--t1);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.5)}
-.leaflet-popup-tip{background:var(--card)}
-.leaflet-popup-close-button{color:var(--t3)!important}
+.leaflet-container{background:#090c13;font-family:var(--font)}
 .leaflet-control-zoom a{background:var(--card)!important;color:var(--t1)!important;border-color:var(--border)!important}
-.leaflet-bar{box-shadow:0 4px 16px rgba(0,0,0,.4)!important;border:1px solid var(--border)!important}
-@media(max-width:768px){.sb{display:none}}
+.leaflet-control-attribution{background:rgba(9,12,19,.7)!important;color:var(--t3)!important;font-size:.55rem!important}
+.leaflet-control-attribution a{color:var(--t3)!important}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.3rem}
+@media(max-width:700px){.sidebar{display:none}}
 </style>
 </head>
 <body>
-
-<header class="tb">
-  <a href="https://universeinvedors.tech/tools" class="logo">🗺️ Universe Tools <span style="color:var(--t4);font-weight:400;font-size:.75rem">/</span> <span style="color:var(--acc-h)">Map Builder</span></a>
-  <div class="search-row">
-    <input type="text" id="search-input" placeholder="Search location, address or coordinates…" onkeydown="if(event.key==='Enter')searchLocation()">
-    <button class="btn bg bsm" onclick="searchLocation()" id="search-btn">Go</button>
+<header class="topbar">
+  <a href="https://universeinvedors.tech/tools" class="logo">🗺 <span style="color:var(--acc-h)">Map Studio</span></a>
+  <div class="etabs">
+    <button class="et active" onclick="switchMode('builder',this)">🗺 Map Builder</button>
+    <button class="et" onclick="switchMode('route',this)">🛣 Route Planner</button>
+    <button class="et" onclick="switchMode('heatmap',this)">🔥 Heatmap</button>
+    <button class="et" onclick="switchMode('geojson',this)">{ } GeoJSON</button>
+    <button class="et" onclick="switchMode('measure',this)">📏 Measure</button>
   </div>
   <div class="sp"></div>
   <div style="display:flex;gap:.35rem">
+    <button class="btn bg bsm" onclick="clearAll()">🗑 Clear</button>
     <button class="btn bg bsm" onclick="exportGeoJSON()">↓ GeoJSON</button>
-    <button class="btn bg bsm" onclick="importGeoJSON()">↑ Import</button>
-    <button class="btn bp bsm" onclick="screenshot()">📷 Save Map</button>
+    <button class="btn bg bsm" onclick="exportCSV()">↓ CSV</button>
+    <button class="btn bg bsm" onclick="exportKML()">↓ KML</button>
   </div>
-  <input type="file" id="import-input" accept=".json,.geojson" style="display:none" onchange="handleImport(this.files[0])">
 </header>
 
-<!-- Mode bar -->
-<div class="mode-bar">
-  <span style="font-size:.7rem;color:var(--t3);white-space:nowrap;margin-right:.2rem">Mode:</span>
-  <button class="btn btn-mode active bsm" id="mode-pan" onclick="setMode('pan',this)">🖐 Pan</button>
-  <button class="btn btn-mode bsm" id="mode-marker" onclick="setMode('marker',this)">📍 Marker</button>
-  <button class="btn btn-mode bsm" id="mode-line" onclick="setMode('line',this)">📏 Polyline</button>
-  <button class="btn btn-mode bsm" id="mode-polygon" onclick="setMode('polygon',this)">⬡ Polygon</button>
-  <button class="btn btn-mode bsm" id="mode-circle" onclick="setMode('circle',this)">⭕ Circle</button>
-  <span class="sp"></span>
-  <span style="font-size:.7rem;color:var(--t3);white-space:nowrap">Tiles:</span>
-  <select id="tile-select" onchange="changeTile(this.value)" style="padding:.28rem .55rem;background:var(--inp);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:.72rem;outline:none">
-    <option value="osm">OpenStreetMap</option>
-    <option value="topo">OpenTopoMap</option>
-    <option value="dark">CartoDB Dark</option>
-    <option value="light">CartoDB Light</option>
-    <option value="satellite">ESRI Satellite</option>
-  </select>
-</div>
-
 <div class="main">
-  <div id="map"></div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
 
-  <aside class="sb">
-    <div class="sb-tabs">
-      <button class="sbt active" onclick="switchTab('layers',this)">Layers</button>
-      <button class="sbt" onclick="switchTab('props',this)">Properties</button>
-      <button class="sbt" onclick="switchTab('stats',this)">Stats</button>
+    <!-- MAP BUILDER PANEL -->
+    <div class="spanel active" id="panel-builder">
+      <div class="sec">Search</div>
+      <div style="display:flex;gap:.3rem;margin-bottom:.3rem">
+        <input class="fi" id="search-input" placeholder="Search place..." style="margin:0;flex:1" onkeydown="if(event.key==='Enter')searchPlace()"/>
+        <button class="btn bp bsm" onclick="searchPlace()">Go</button>
+      </div>
+
+      <div class="sec">Draw Tool</div>
+      <div class="tool-grid">
+        <div class="tool-btn" id="tool-marker" onclick="setTool('marker',this)">📍 Marker</div>
+        <div class="tool-btn" id="tool-polyline" onclick="setTool('polyline',this)">〰 Line</div>
+        <div class="tool-btn" id="tool-polygon" onclick="setTool('polygon',this)">⬟ Polygon</div>
+        <div class="tool-btn" id="tool-circle" onclick="setTool('circle',this)">⬤ Circle</div>
+        <div class="tool-btn" id="tool-rectangle" onclick="setTool('rectangle',this)">▬ Rect</div>
+        <div class="tool-btn active" id="tool-select" onclick="setTool('select',this)">↖ Select</div>
+      </div>
+
+      <div class="sec">Marker Color</div>
+      <input type="color" id="marker-color" value="#5ee6a8" style="width:100%;height:28px;border:1px solid var(--border);border-radius:var(--r);background:var(--inp);cursor:pointer;margin-bottom:.3rem"/>
+
+      <div class="sec">Tile Layer</div>
+      <div class="tile-grid">
+        <div class="tile-btn active" onclick="setTile('osm',this)">OSM</div>
+        <div class="tile-btn" onclick="setTile('dark',this)">Dark</div>
+        <div class="tile-btn" onclick="setTile('light',this)">Light</div>
+        <div class="tile-btn" onclick="setTile('satellite',this)">Satellite</div>
+        <div class="tile-btn" onclick="setTile('topo',this)">Topo</div>
+        <div class="tile-btn" onclick="setTile('watercolor',this)">Art</div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.35rem">
+        <input type="checkbox" id="cluster-toggle" onchange="toggleClustering(this.checked)"/>
+        <label for="cluster-toggle" style="font-size:.72rem;cursor:pointer">Marker Clustering</label>
+      </div>
+
+      <div class="sec">Layers (<span id="layer-count">0</span>)</div>
+      <div id="layer-list" style="max-height:140px;overflow-y:auto"></div>
+
+      <div class="sec">Import</div>
+      <button class="btn bg bsm" onclick="document.getElementById('geojson-import').click()" style="width:100%;margin-bottom:.3rem">📂 Import GeoJSON</button>
+      <input type="file" id="geojson-import" accept=".json,.geojson" style="display:none" onchange="importGeoJSONFile(this.files[0]);this.value=''"/>
     </div>
 
-    <!-- Layers tab -->
-    <div id="tab-layers" class="sb-body">
-      <div id="layer-list" style="margin-bottom:.5rem"></div>
-      <button class="btn bg bsm" style="width:100%;justify-content:center" onclick="clearAll()">🗑 Clear All</button>
-    </div>
-
-    <!-- Properties tab -->
-    <div id="tab-props" class="sb-body" style="display:none">
-      <div class="prop-row">
-        <span class="prop-label">Marker Color</span>
-        <input type="color" class="prop-input" id="marker-color" value="#5ee6a8" style="height:36px;padding:.2rem">
+    <!-- ROUTE PLANNER PANEL -->
+    <div class="spanel" id="panel-route">
+      <div class="sec">Waypoints</div>
+      <div style="display:flex;gap:.3rem;margin-bottom:.3rem">
+        <input class="fi" id="wp-input" placeholder="Search or click map..." style="margin:0;flex:1" onkeydown="if(event.key==='Enter')addWaypointBySearch()"/>
+        <button class="btn bp bsm" onclick="addWaypointBySearch()">+</button>
       </div>
-      <div class="prop-row">
-        <span class="prop-label">Line Color</span>
-        <input type="color" class="prop-input" id="line-color" value="#3b82f6" style="height:36px;padding:.2rem">
+      <div style="font-size:.7rem;color:var(--t3);margin-bottom:.35rem">Or click the map to add waypoints</div>
+      <div id="waypoint-list"></div>
+      <div class="grid-2" style="margin-top:.35rem">
+        <button class="btn bg bsm" onclick="calculateRoute()">🛣 Route (OSRM)</button>
+        <button class="btn bg bsm" onclick="clearRoute()">🗑 Clear</button>
       </div>
-      <div class="prop-row">
-        <span class="prop-label">Fill Color</span>
-        <input type="color" class="prop-input" id="fill-color" value="#8b5cf6" style="height:36px;padding:.2rem">
-      </div>
-      <div class="prop-row">
-        <span class="prop-label">Line Weight (px)</span>
-        <input type="range" min="1" max="10" value="3" id="line-weight" oninput="document.getElementById('lw-val').textContent=this.value" style="width:100%;accent-color:var(--acc)">
-        <span id="lw-val" style="font-size:.7rem;color:var(--acc-h)">3</span>px
-      </div>
-      <div class="prop-row">
-        <span class="prop-label">Circle Radius (m)</span>
-        <input type="number" class="prop-input" id="circle-radius" value="500" min="10" max="50000">
+      <div id="route-result" style="display:none" class="meas-result" style="margin-top:.5rem">
+        <div id="route-distance" style="font-weight:700"></div>
+        <div id="route-duration" style="font-size:.72rem;color:var(--t3);margin-top:.2rem"></div>
       </div>
     </div>
 
-    <!-- Stats tab -->
-    <div id="tab-stats" class="sb-body" style="display:none">
-      <div class="stat-grid" id="stats-grid">
-        <div class="stat-card"><div class="stat-val" id="st-markers">0</div><div class="stat-lbl">Markers</div></div>
-        <div class="stat-card"><div class="stat-val" id="st-shapes">0</div><div class="stat-lbl">Shapes</div></div>
-        <div class="stat-card"><div class="stat-val" id="st-dist">0 m</div><div class="stat-lbl">Total Distance</div></div>
-        <div class="stat-card"><div class="stat-val" id="st-area">0 m²</div><div class="stat-lbl">Total Area</div></div>
+    <!-- HEATMAP PANEL -->
+    <div class="spanel" id="panel-heatmap">
+      <div class="sec">Import CSV</div>
+      <div style="font-size:.7rem;color:var(--t3);margin-bottom:.35rem;line-height:1.4">CSV format: <code style="background:var(--inp);padding:.1rem .25rem;border-radius:3px;font-size:.68rem">lat,lng,intensity</code> (header optional)</div>
+      <button class="btn bp bsm" onclick="document.getElementById('csv-import').click()" style="width:100%;margin-bottom:.35rem">📂 Import CSV</button>
+      <input type="file" id="csv-import" accept=".csv,.txt" style="display:none" onchange="importCSVHeatmap(this.files[0]);this.value=''"/>
+      <button class="btn bg bsm" onclick="loadSampleHeatmap()" style="width:100%;margin-bottom:.35rem">🎲 Load Sample Data</button>
+
+      <div class="sec">Settings</div>
+      <label class="fl">Radius <span id="v-hr">25</span></label>
+      <input type="range" class="frange" id="heat-radius" min="5" max="80" value="25" oninput="document.getElementById('v-hr').textContent=this.value;updateHeatmap()"/>
+      <label class="fl">Blur <span id="v-hb">15</span></label>
+      <input type="range" class="frange" id="heat-blur" min="1" max="50" value="15" oninput="document.getElementById('v-hb').textContent=this.value;updateHeatmap()"/>
+      <label class="fl">Max Intensity <span id="v-hm">1.0</span></label>
+      <input type="range" class="frange" id="heat-max" min="0.1" max="5" step="0.1" value="1" oninput="document.getElementById('v-hm').textContent=parseFloat(this.value).toFixed(1);updateHeatmap()"/>
+      <div style="font-size:.7rem;color:var(--t3)" id="heatmap-status">No heatmap loaded</div>
+    </div>
+
+    <!-- GEOJSON EDITOR PANEL -->
+    <div class="spanel" id="panel-geojson">
+      <div class="sec">GeoJSON Editor</div>
+      <textarea class="fta" id="geojson-editor" rows="10" placeholder='{"type":"FeatureCollection","features":[]}' oninput="previewGeoJSON()"></textarea>
+      <div class="grid-2" style="margin-bottom:.35rem">
+        <button class="btn bg bsm" onclick="validateGeoJSON()">✓ Validate</button>
+        <button class="btn bg bsm" onclick="prettyPrintGeoJSON()">✦ Prettify</button>
       </div>
-      <div style="margin-top:.75rem">
-        <p style="font-size:.7rem;color:var(--t3);margin-bottom:.35rem">Coordinates</p>
-        <div id="coord-display" style="font-family:var(--mono);font-size:.72rem;color:var(--t2);padding:.5rem;background:var(--card);border-radius:8px;border:1px solid var(--border);word-break:break-all">Click map to see coordinates</div>
+      <div class="grid-2">
+        <button class="btn bp bsm" onclick="renderGeoJSON()">▶ Render</button>
+        <button class="btn bg bsm" onclick="loadCurrentAsGeoJSON()">⊕ From Map</button>
+      </div>
+      <button class="btn bg bsm" onclick="loadGeoJSONFromURL()" style="width:100%;margin-top:.3rem">🔗 Load from URL</button>
+      <div id="geojson-status" style="font-size:.7rem;color:var(--t3);margin-top:.3rem"></div>
+    </div>
+
+    <!-- MEASURE PANEL -->
+    <div class="spanel" id="panel-measure">
+      <div class="sec">Measurement Tool</div>
+      <button class="btn bp bsm" id="measure-btn" onclick="toggleMeasure()" style="width:100%;margin-bottom:.35rem">📏 Start Measuring</button>
+      <button class="btn bg bsm" onclick="clearMeasure()" style="width:100%;margin-bottom:.35rem">🗑 Clear</button>
+
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.35rem">
+        <input type="checkbox" id="unit-imperial" onchange="updateMeasureDisplay()"/>
+        <label for="unit-imperial" style="font-size:.72rem;cursor:pointer">Imperial (miles/ft²)</label>
+      </div>
+
+      <div id="measure-result" class="meas-result" style="display:none">
+        <div style="font-size:.7rem;color:var(--t3);margin-bottom:.2rem">Distance</div>
+        <div id="meas-distance" style="font-weight:700;font-size:.9rem"></div>
+        <div id="meas-area" style="font-size:.7rem;color:var(--t3);margin-top:.2rem"></div>
+        <div style="font-size:.68rem;color:var(--t4);margin-top:.2rem" id="meas-points"></div>
+      </div>
+
+      <div style="font-size:.72rem;color:var(--t3);line-height:1.5;margin-top:.3rem">
+        Click the map to add measurement points.<br/>
+        Close the polygon to measure area.
       </div>
     </div>
   </aside>
+
+  <!-- MAP -->
+  <div class="map-area">
+    <div id="map"></div>
+    <div class="coord-display" id="coord-display">0.0000, 0.0000</div>
+  </div>
 </div>
 
+<!-- STATUS BAR -->
 <div class="statusbar">
-  <span class="sdot"></span>
-  <span id="status-mode" style="color:var(--acc-h);font-weight:600">Pan mode</span>
-  <span id="status-count" style="color:var(--t3)">0 objects</span>
-  <span style="margin-left:auto;font-size:.65rem;color:var(--t4)">© OpenStreetMap contributors · Leaflet.js</span>
+  <span id="sb-coords">0.0000°N, 0.0000°E</span>
+  <span class="sb-sep">·</span>
+  <span id="sb-zoom">Zoom: 3</span>
+  <span class="sb-sep">·</span>
+  <span id="sb-objects">0 features</span>
+  <span class="sb-sep">·</span>
+  <span id="sb-tool-active">Tool: Select</span>
 </div>
 
+<!-- FOOTER -->
 <footer class="seo-footer">
-  <div class="sfl">
+  <div class="sf-links">
     <a href="https://universeinvedors.tech">Universe Invedors</a>
     <a href="https://universeinvedors.tech/tools">All Tools</a>
-    <a href="https://code.universeinvedors.tech">Code</a>
+    <a href="https://code.universeinvedors.tech">Code IDE</a>
     <a href="https://diagram.universeinvedors.tech">Diagrams</a>
     <a href="https://chart.universeinvedors.tech">Charts</a>
     <a href="https://ocr.universeinvedors.tech">OCR</a>
-    <a href="https://pdf.universeinvedors.tech">PDF</a>
-    <a href="https://image.universeinvedors.tech">Image</a>
-    <a href="https://3d.universeinvedors.tech">3D</a>
-    <a href="https://media.universeinvedors.tech">Media</a>
+    <a href="https://pdf.universeinvedors.tech">PDF Suite</a>
+    <a href="https://image.universeinvedors.tech">Image Studio</a>
+    <a href="https://3d.universeinvedors.tech">3D Studio</a>
+    <a href="https://media.universeinvedors.tech">Media Studio</a>
   </div>
-  <span>© 2024 Universe Invedors · Leaflet · OpenStreetMap · Free map tool</span>
+  <span>© 2024 Universe Invedors · Map Studio · Leaflet.js · OpenStreetMap</span>
 </footer>
 
 <div class="toasts" id="toasts"></div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-// ── Setup ──────────────────────────────────────────────────────
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  iconUrl:'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  shadowUrl:'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-})
-
-const map = L.map('map', {zoomControl:true}).setView([20,0],3)
-let tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map)
+// ─────────────────────────────────────────────
+// MAP INIT
+// ─────────────────────────────────────────────
+const map = L.map('map', { zoomControl: true }).setView([20, 0], 3);
 
 const TILES = {
-  osm:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  topo:'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-  dark:'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-  light:'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-  satellite:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+  osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution:'© OpenStreetMap', maxZoom:19 }),
+  dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution:'© CartoDB', maxZoom:19 }),
+  light: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution:'© CartoDB', maxZoom:19 }),
+  satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution:'© Esri', maxZoom:19 }),
+  topo: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { attribution:'© OpenTopoMap', maxZoom:17 }),
+  watercolor: L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg', { attribution:'© Stadia Maps', maxZoom:16 })
+};
+TILES.dark.addTo(map);
+let currentTile = TILES.dark;
+
+// Cluster group
+let markerCluster = L.markerClusterGroup();
+let clusterEnabled = false;
+map.addLayer(markerCluster);
+
+// Feature collections
+const features = [];
+let featureCount = 0;
+let geojsonLayer = null;
+let heatLayer = null;
+
+// Drawing state
+let activeTool = 'select';
+let drawPoints = [];
+let drawMode = null; // active L.polyline/polygon being drawn
+let tempLayer = null;
+
+// Measure state
+let measureActive = false;
+let measurePoints = [];
+let measureLayer = null;
+
+// Route state
+const waypoints = [];
+let routeLayer = null;
+
+// ─────────────────────────────────────────────
+// MODE SWITCH
+// ─────────────────────────────────────────────
+function switchMode(mode, btn) {
+  document.querySelectorAll('.et').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.spanel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + mode).classList.add('active');
+  // Stop measure if switching away
+  if(mode !== 'measure' && measureActive) toggleMeasure();
+  if(mode === 'route') {
+    map.off('click', onMapClick);
+    map.on('click', onRouteClick);
+  } else {
+    map.off('click', onRouteClick);
+    map.on('click', onMapClick);
+  }
+  currentMode = mode;
+}
+let currentMode = 'builder';
+map.on('click', onMapClick);
+
+// ─────────────────────────────────────────────
+// TILE LAYERS
+// ─────────────────────────────────────────────
+function setTile(name, btn) {
+  map.removeLayer(currentTile);
+  currentTile = TILES[name];
+  currentTile.addTo(map);
+  currentTile.bringToBack();
+  document.querySelectorAll('.tile-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
-let mode = 'pan', objects = [], polyPoints = [], tempLine = null, nextId = 1
-
-// ── Tile switcher ──────────────────────────────────────────────
-function changeTile(t){
-  tileLayer.setUrl(TILES[t]||TILES.osm)
-  toast('Tile layer changed','ok')
+// ─────────────────────────────────────────────
+// DRAWING TOOLS
+// ─────────────────────────────────────────────
+function setTool(tool, btn) {
+  activeTool = tool;
+  document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if(drawMode) { map.removeLayer(drawMode); drawMode = null; drawPoints = []; }
+  document.getElementById('sb-tool-active').textContent = 'Tool: ' + tool.charAt(0).toUpperCase() + tool.slice(1);
+  map.getContainer().style.cursor = tool === 'select' ? '' : 'crosshair';
 }
 
-// ── Mode switcher ──────────────────────────────────────────────
-function setMode(m,btn){
-  mode=m; polyPoints=[]; if(tempLine){tempLine.remove();tempLine=null}
-  document.querySelectorAll('.btn-mode').forEach(b=>b.classList.remove('active')); btn.classList.add('active')
-  map.getContainer().style.cursor = m==='pan'?'':'crosshair'
-  document.getElementById('status-mode').textContent={pan:'Pan mode',marker:'Marker mode',line:'Polyline mode',polygon:'Polygon mode',circle:'Circle mode'}[m]||m
+function onMapClick(e) {
+  if(measureActive) { addMeasurePoint(e.latlng); return; }
+  const latlng = e.latlng;
+  const color = document.getElementById('marker-color').value;
+  switch(activeTool) {
+    case 'marker': addMarker(latlng, color); break;
+    case 'polyline': addPolylinePoint(latlng); break;
+    case 'polygon': addPolygonPoint(latlng); break;
+    case 'circle': addCircle(latlng); break;
+    case 'rectangle': addRectangle(latlng); break;
+  }
 }
 
-// ── Map click handler ──────────────────────────────────────────
-map.on('click',e=>{
-  const {lat,lng}=e.latlng
-  document.getElementById('coord-display').textContent=`Lat: ${lat.toFixed(6)}\nLng: ${lng.toFixed(6)}`
-
-  if(mode==='marker'){
-    const color=document.getElementById('marker-color').value
-    const icon=L.divIcon({html:`<div style="width:14px;height:14px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.5)"></div>`,className:'',iconAnchor:[7,7]})
-    const m=L.marker([lat,lng],{icon}).addTo(map)
-    const id=nextId++; const lbl=`Marker ${id}`
-    m.bindPopup(`<b>${lbl}</b><br><span style='font-family:monospace;font-size:.75rem'>${lat.toFixed(5)}, ${lng.toFixed(5)}</span>`)
-    objects.push({id,type:'marker',label:lbl,lat,lng,layer:m}); renderLayerList(); updateStats(); toast('Marker placed','ok')
-  }
-
-  else if(mode==='line'||mode==='polygon'){
-    polyPoints.push([lat,lng])
-    if(tempLine) tempLine.remove()
-    if(mode==='polygon'&&polyPoints.length>=2) tempLine=L.polygon(polyPoints,{color:document.getElementById('line-color').value,fillColor:document.getElementById('fill-color').value,fillOpacity:.2,weight:parseInt(document.getElementById('line-weight').value)}).addTo(map)
-    else if(polyPoints.length>=2) tempLine=L.polyline(polyPoints,{color:document.getElementById('line-color').value,weight:parseInt(document.getElementById('line-weight').value)}).addTo(map)
-    toast(`Point ${polyPoints.length} added — double-click to finish`,'ok')
-  }
-
-  else if(mode==='circle'){
-    const r=parseInt(document.getElementById('circle-radius').value)||500
-    const c=L.circle([lat,lng],{radius:r,color:document.getElementById('line-color').value,fillColor:document.getElementById('fill-color').value,fillOpacity:.25,weight:2}).addTo(map)
-    const id=nextId++; const lbl=`Circle ${id}`
-    c.bindPopup(`<b>${lbl}</b><br>Radius: ${r}m`)
-    objects.push({id,type:'circle',label:lbl,lat,lng,radius:r,layer:c}); renderLayerList(); updateStats(); toast(`Circle r=${r}m added`,'ok')
-  }
-})
-
-// Double-click to finish polyline/polygon
-map.on('dblclick',e=>{
-  if((mode==='line'||mode==='polygon')&&polyPoints.length>=2){
-    if(tempLine){tempLine.remove();tempLine=null}
-    let finalLayer,id=nextId++
-    const clr=document.getElementById('line-color').value, flr=document.getElementById('fill-color').value, wt=parseInt(document.getElementById('line-weight').value)
-    if(mode==='polygon') finalLayer=L.polygon(polyPoints,{color:clr,fillColor:flr,fillOpacity:.25,weight:wt}).addTo(map)
-    else finalLayer=L.polyline(polyPoints,{color:clr,weight:wt}).addTo(map)
-    const lbl=`${mode==='polygon'?'Polygon':'Polyline'} ${id}`
-    finalLayer.bindPopup(`<b>${lbl}</b><br>${polyPoints.length} points`)
-    objects.push({id,type:mode,label:lbl,points:polyPoints,layer:finalLayer})
-    polyPoints=[]; renderLayerList(); updateStats(); toast(`${lbl} completed`,'ok')
-    L.DomEvent.stopPropagation(e)
-  }
-})
-
-// ── Layers panel ───────────────────────────────────────────────
-function renderLayerList(){
-  const list=document.getElementById('layer-list')
-  if(!objects.length){list.innerHTML='<p style="font-size:.78rem;color:var(--t3);text-align:center;padding:1rem">No objects yet.<br>Select a mode and click the map.</p>';return}
-  list.innerHTML=objects.map(o=>`
-    <div class="layer-item">
-      <div class="layer-info">
-        <div class="layer-name">${o.label}</div>
-        <div class="layer-meta">${o.type}${o.lat?' · '+o.lat.toFixed(4)+','+o.lng.toFixed(4):''}</div>
-      </div>
-      <div class="layer-actions">
-        <button class="icon-btn" onclick="flyTo(${o.id})" title="Zoom">🎯</button>
-        <button class="icon-btn" onclick="removeObject(${o.id})" title="Delete">✕</button>
-      </div>
-    </div>`).join('')
-  document.getElementById('status-count').textContent=`${objects.length} object${objects.length!==1?'s':''}`
+function addMarker(latlng, color='#5ee6a8') {
+  const icon = L.divIcon({
+    className: '',
+    html: `<div style="width:14px;height:14px;border-radius:50%;background:${color};border:2px solid rgba(255,255,255,.8);box-shadow:0 2px 6px rgba(0,0,0,.5)"></div>`,
+    iconSize: [14,14], iconAnchor:[7,7]
+  });
+  const marker = L.marker(latlng, { icon });
+  const name = 'Marker ' + (++featureCount);
+  marker.bindPopup(`<b>${name}</b><br>${latlng.lat.toFixed(4)}, ${latlng.lng.toFixed(4)}`);
+  if(clusterEnabled) markerCluster.addLayer(marker);
+  else marker.addTo(map);
+  addFeature(marker, 'marker', name);
 }
 
-function flyTo(id){ const o=objects.find(x=>x.id===id); if(o&&o.lat) map.flyTo([o.lat,o.lng],14,{duration:1}) }
-function removeObject(id){ const i=objects.findIndex(x=>x.id===id); if(i!==-1){objects[i].layer.remove();objects.splice(i,1);renderLayerList();updateStats()} }
-function clearAll(){ objects.forEach(o=>o.layer.remove()); objects=[]; if(tempLine){tempLine.remove();tempLine=null}; polyPoints=[]; renderLayerList(); updateStats(); toast('All cleared','ok') }
-
-function updateStats(){
-  const markers=objects.filter(o=>o.type==='marker').length
-  const shapes=objects.filter(o=>o.type!=='marker').length
-  document.getElementById('st-markers').textContent=markers
-  document.getElementById('st-shapes').textContent=shapes
-  // Basic distance estimation for polylines
-  let totalDist=0
-  objects.filter(o=>o.type==='line'&&o.points).forEach(o=>{
-    for(let i=1;i<o.points.length;i++){
-      const a=L.latLng(o.points[i-1]),b=L.latLng(o.points[i])
-      totalDist+=a.distanceTo(b)
+let polylinePoints = [];
+function addPolylinePoint(latlng) {
+  polylinePoints.push(latlng);
+  if(drawMode) map.removeLayer(drawMode);
+  if(polylinePoints.length > 1) {
+    drawMode = L.polyline(polylinePoints, { color: document.getElementById('marker-color').value, weight:3 }).addTo(map);
+    if(polylinePoints.length >= 2) {
+      drawMode.bindPopup('Line — double-click to finish');
     }
-  })
-  document.getElementById('st-dist').textContent=totalDist>1000?(totalDist/1000).toFixed(2)+'km':(totalDist.toFixed(0)+'m')
+  }
 }
 
-// ── Tabs ───────────────────────────────────────────────────────
-function switchTab(tab,btn){
-  ['layers','props','stats'].forEach(t=>{ document.getElementById('tab-'+t).style.display=t===tab?'block':'none' })
-  document.querySelectorAll('.sbt').forEach(b=>b.classList.remove('active')); btn.classList.add('active')
+map.on('dblclick', e => {
+  if(activeTool === 'polyline' && polylinePoints.length >= 2) {
+    const line = L.polyline(polylinePoints, { color: document.getElementById('marker-color').value, weight:3 }).addTo(map);
+    if(drawMode) map.removeLayer(drawMode);
+    drawMode = null; polylinePoints = [];
+    addFeature(line, 'polyline', 'Line ' + (++featureCount));
+    map.getContainer().style.cursor = 'crosshair';
+  }
+  if(activeTool === 'polygon' && polygonPoints.length >= 3) {
+    const poly = L.polygon(polygonPoints, { color: document.getElementById('marker-color').value, fillOpacity:0.2 }).addTo(map);
+    if(drawMode) map.removeLayer(drawMode);
+    drawMode = null; polygonPoints = [];
+    addFeature(poly, 'polygon', 'Polygon ' + (++featureCount));
+  }
+});
+
+let polygonPoints = [];
+function addPolygonPoint(latlng) {
+  polygonPoints.push(latlng);
+  if(drawMode) map.removeLayer(drawMode);
+  if(polygonPoints.length >= 3) {
+    drawMode = L.polygon(polygonPoints, { color: document.getElementById('marker-color').value, fillOpacity:0.15 }).addTo(map);
+  }
 }
 
-// ── Search ─────────────────────────────────────────────────────
-async function searchLocation(){
-  const q=document.getElementById('search-input').value.trim(); if(!q) return
-  const btn=document.getElementById('search-btn'); btn.textContent='…'
+function addCircle(latlng) {
+  const circle = L.circle(latlng, { radius: 500, color: document.getElementById('marker-color').value, fillOpacity:0.2 }).addTo(map);
+  addFeature(circle, 'circle', 'Circle ' + (++featureCount));
+}
+
+let rectStart = null;
+function addRectangle(latlng) {
+  if(!rectStart) { rectStart = latlng; toast('Click second corner to finish rectangle','info'); return; }
+  const rect = L.rectangle([rectStart, latlng], { color: document.getElementById('marker-color').value, fillOpacity:0.2 }).addTo(map);
+  addFeature(rect, 'rectangle', 'Rect ' + (++featureCount));
+  rectStart = null;
+}
+
+function addFeature(layer, type, name) {
+  features.push({ layer, type, name, visible: true });
+  renderLayerList();
+}
+
+function renderLayerList() {
+  const list = document.getElementById('layer-list');
+  list.innerHTML = '';
+  features.forEach((f, i) => {
+    const item = document.createElement('div');
+    item.className = 'layer-item';
+    item.innerHTML = `<input type="checkbox" ${f.visible?'checked':''} onchange="toggleLayer(${i},this.checked)"/>
+      <span style="flex:1">${getTypeIcon(f.type)} ${f.name}</span>
+      <span class="del" onclick="removeFeature(${i})">✕</span>`;
+    list.appendChild(item);
+  });
+  document.getElementById('layer-count').textContent = features.length;
+  document.getElementById('sb-objects').textContent = features.length + ' features';
+}
+
+function getTypeIcon(t) {
+  return {marker:'📍',polyline:'〰',polygon:'⬟',circle:'⬤',rectangle:'▬',geojson:'{}'}[t]||'📌';
+}
+
+function toggleLayer(i, vis) {
+  features[i].visible = vis;
+  if(vis) features[i].layer.addTo(map);
+  else map.removeLayer(features[i].layer);
+}
+
+function removeFeature(i) {
+  map.removeLayer(features[i].layer);
+  features.splice(i, 1);
+  renderLayerList();
+}
+
+function toggleClustering(enabled) {
+  clusterEnabled = enabled;
+  // Rebuild markers
+  features.filter(f => f.type === 'marker').forEach(f => {
+    map.removeLayer(f.layer);
+    markerCluster.removeLayer(f.layer);
+    if(enabled) markerCluster.addLayer(f.layer);
+    else f.layer.addTo(map);
+  });
+  toast(enabled ? 'Clustering enabled' : 'Clustering disabled','info');
+}
+
+// ─────────────────────────────────────────────
+// SEARCH
+// ─────────────────────────────────────────────
+async function searchPlace() {
+  const q = document.getElementById('search-input').value.trim();
+  if(!q) return;
   try {
-    const r=await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&limit=1`,{headers:{'Accept-Language':'en'}})
-    const d=await r.json()
-    if(d.length){ map.flyTo([parseFloat(d[0].lat),parseFloat(d[0].lon)],13,{duration:1.5}); toast(d[0].display_name.split(',').slice(0,3).join(','),'ok') }
-    else toast('Location not found','err')
-  } catch{ toast('Search failed','err') }
-  btn.textContent='Go'
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1`, { headers:{'Accept-Language':'en'} });
+    const data = await res.json();
+    if(!data.length) { toast('Place not found','err'); return; }
+    const {lat,lon,display_name} = data[0];
+    map.setView([parseFloat(lat), parseFloat(lon)], 13);
+    L.popup().setLatLng([parseFloat(lat), parseFloat(lon)]).setContent(display_name).openOn(map);
+    toast(display_name.substring(0,50)+'…','ok');
+  } catch(e) { toast('Search failed: ' + e.message,'err'); }
 }
 
-// ── Export / Import ────────────────────────────────────────────
-function exportGeoJSON(){
-  const features=objects.map(o=>{
-    if(o.type==='marker') return {type:'Feature',properties:{name:o.label},geometry:{type:'Point',coordinates:[o.lng,o.lat]}}
-    if(o.type==='line'&&o.points) return {type:'Feature',properties:{name:o.label},geometry:{type:'LineString',coordinates:o.points.map(p=>[p[1],p[0]])}}
-    if(o.type==='polygon'&&o.points) return {type:'Feature',properties:{name:o.label},geometry:{type:'Polygon',coordinates:[o.points.map(p=>[p[1],p[0]])]}}
-    return null
-  }).filter(Boolean)
-  const gj={type:'FeatureCollection',features}
-  const a=document.createElement('a'); a.href='data:application/json,'+encodeURIComponent(JSON.stringify(gj,null,2)); a.download='map-data.geojson'; a.click()
-  toast(`Exported ${features.length} features`,'ok')
+// ─────────────────────────────────────────────
+// ROUTE PLANNER
+// ─────────────────────────────────────────────
+function onRouteClick(e) {
+  const latlng = e.latlng;
+  waypoints.push({ latlng, name: `WP ${waypoints.length+1}` });
+  renderWaypointList();
+  toast('Waypoint added','ok');
 }
 
-function importGeoJSON(){ document.getElementById('import-input').click() }
+function addWaypointBySearch() {
+  const q = document.getElementById('wp-input').value.trim();
+  if(!q) return;
+  fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1`, { headers:{'Accept-Language':'en'} })
+    .then(r=>r.json()).then(data => {
+      if(!data.length) { toast('Place not found','err'); return; }
+      const latlng = L.latLng(parseFloat(data[0].lat), parseFloat(data[0].lon));
+      waypoints.push({ latlng, name: data[0].display_name.split(',')[0] });
+      renderWaypointList();
+      map.panTo(latlng);
+      document.getElementById('wp-input').value = '';
+    }).catch(e => toast('Search failed','err'));
+}
 
-async function handleImport(file){
-  if(!file) return
-  const text=await file.text()
+function renderWaypointList() {
+  const list = document.getElementById('waypoint-list');
+  list.innerHTML = '';
+  waypoints.forEach((wp, i) => {
+    const item = document.createElement('div');
+    item.className = 'wp-item';
+    item.innerHTML = `<span class="wp-num">${i+1}</span><span style="flex:1;font-size:.7rem">${wp.name}</span><span class="del" onclick="removeWaypoint(${i})" style="cursor:pointer;color:var(--t4)">✕</span>`;
+    list.appendChild(item);
+  });
+}
+
+function removeWaypoint(i) { waypoints.splice(i,1); renderWaypointList(); }
+
+async function calculateRoute() {
+  if(waypoints.length < 2) { toast('Add at least 2 waypoints','err'); return; }
+  // Straight-line distance
+  let totalDist = 0;
+  for(let i=0;i<waypoints.length-1;i++) totalDist += waypoints[i].latlng.distanceTo(waypoints[i+1].latlng);
+  // Try OSRM for actual routing
   try {
-    const gj=JSON.parse(text)
-    L.geoJSON(gj,{
-      onEachFeature:(f,layer)=>{
-        const id=nextId++; const lbl=f.properties?.name||`Import ${id}`
-        layer.addTo(map); objects.push({id,type:'import',label:lbl,layer}); layer.bindPopup(`<b>${lbl}</b>`)
+    const coords = waypoints.map(w => `${w.latlng.lng},${w.latlng.lat}`).join(';');
+    const url = `https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if(data.code === 'Ok' && data.routes.length) {
+      const route = data.routes[0];
+      const km = (route.distance/1000).toFixed(1);
+      const mins = Math.round(route.duration/60);
+      if(routeLayer) map.removeLayer(routeLayer);
+      routeLayer = L.geoJSON(route.geometry, { style:{ color:'#5ee6a8', weight:4, opacity:0.8 } }).addTo(map);
+      document.getElementById('route-result').style.display='block';
+      document.getElementById('route-distance').textContent = `🛣 ${km} km`;
+      document.getElementById('route-duration').textContent = `🚗 ~${mins} min driving · 🚶 ~${Math.round(mins*3.5)} min walking`;
+      map.fitBounds(routeLayer.getBounds(), { padding:[20,20] });
+    } else {
+      throw new Error('No route found');
+    }
+  } catch(e) {
+    // Fallback to straight line
+    if(routeLayer) map.removeLayer(routeLayer);
+    routeLayer = L.polyline(waypoints.map(w=>w.latlng), { color:'#5ee6a8', weight:3, dashArray:'8,6' }).addTo(map);
+    const km = (totalDist/1000).toFixed(1);
+    document.getElementById('route-result').style.display='block';
+    document.getElementById('route-distance').textContent = `📏 ${km} km (straight line)`;
+    document.getElementById('route-duration').textContent = `⚠️ Routing API unavailable. Showing straight-line.`;
+    map.fitBounds(routeLayer.getBounds(), { padding:[20,20] });
+  }
+}
+
+function clearRoute() {
+  waypoints.length = 0;
+  renderWaypointList();
+  if(routeLayer) { map.removeLayer(routeLayer); routeLayer=null; }
+  document.getElementById('route-result').style.display='none';
+}
+
+// ─────────────────────────────────────────────
+// HEATMAP
+// ─────────────────────────────────────────────
+let heatData = [];
+
+function importCSVHeatmap(file) {
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const lines = e.target.result.split('\n').filter(l=>l.trim());
+    heatData = [];
+    lines.forEach(line => {
+      const parts = line.split(',');
+      if(parts.length >= 2) {
+        const lat = parseFloat(parts[0]), lng = parseFloat(parts[1]);
+        const intensity = parts[2] ? parseFloat(parts[2]) : 1;
+        if(!isNaN(lat) && !isNaN(lng)) heatData.push([lat, lng, intensity]);
       }
-    })
-    renderLayerList(); updateStats(); toast(`Imported ${gj.features?.length||1} features`,'ok')
-  } catch{ toast('Invalid GeoJSON file','err') }
+    });
+    updateHeatmap();
+    if(heatData.length) map.fitBounds(L.latLngBounds(heatData.map(p=>[p[0],p[1]])));
+    document.getElementById('heatmap-status').textContent = heatData.length + ' data points loaded';
+    toast(heatData.length + ' points loaded','ok');
+  };
+  reader.readAsText(file);
 }
 
-function screenshot(){
-  toast('Use browser screenshot (F12 → …) to capture the map','ok')
+function loadSampleHeatmap() {
+  // Generate random sample data around major cities
+  const centers = [[51.5,−0.1],[40.7,−74],[35.6,139.7],[−33.9,151.2],[48.8,2.3]];
+  heatData = [];
+  centers.forEach(([lat,lng]) => {
+    for(let i=0;i<100;i++) {
+      heatData.push([lat+(Math.random()−0.5)*2, lng+(Math.random()−0.5)*2, Math.random()]);
+    }
+  });
+  updateHeatmap();
+  document.getElementById('heatmap-status').textContent = heatData.length + ' sample points';
+  toast('Sample heatmap loaded','ok');
 }
 
-renderLayerList()
+function updateHeatmap() {
+  if(!heatData.length) return;
+  if(heatLayer) map.removeLayer(heatLayer);
+  const radius = parseInt(document.getElementById('heat-radius').value);
+  const blur = parseInt(document.getElementById('heat-blur').value);
+  const max = parseFloat(document.getElementById('heat-max').value);
+  heatLayer = L.heatLayer(heatData, { radius, blur, max, gradient:{0.4:'blue',0.65:'lime',1:'red'} }).addTo(map);
+}
+
+// ─────────────────────────────────────────────
+// GEOJSON EDITOR
+// ─────────────────────────────────────────────
+function previewGeoJSON() {
+  // Live preview as user types with debounce
+  clearTimeout(previewGeoJSON._t);
+  previewGeoJSON._t = setTimeout(() => { try { renderGeoJSON(); } catch(e) {} }, 800);
+}
+
+function validateGeoJSON() {
+  const txt = document.getElementById('geojson-editor').value.trim();
+  const status = document.getElementById('geojson-status');
+  try {
+    const parsed = JSON.parse(txt);
+    if(!parsed.type) throw new Error('Missing "type" property');
+    status.textContent = '✅ Valid GeoJSON (' + (parsed.features?.length||1) + ' features)';
+    status.style.color = 'var(--green)';
+  } catch(e) {
+    status.textContent = '❌ Invalid: ' + e.message;
+    status.style.color = '#f87171';
+  }
+}
+
+function prettyPrintGeoJSON() {
+  const txt = document.getElementById('geojson-editor').value.trim();
+  try {
+    const parsed = JSON.parse(txt);
+    document.getElementById('geojson-editor').value = JSON.stringify(parsed, null, 2);
+    document.getElementById('geojson-status').textContent = 'Prettified';
+  } catch(e) {
+    toast('Invalid JSON','err');
+  }
+}
+
+function renderGeoJSON() {
+  const txt = document.getElementById('geojson-editor').value.trim();
+  if(!txt) return;
+  try {
+    const parsed = JSON.parse(txt);
+    if(geojsonLayer) map.removeLayer(geojsonLayer);
+    geojsonLayer = L.geoJSON(parsed, {
+      style: { color:'#5ee6a8', weight:2, fillOpacity:0.2 },
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, { radius:6, color:'#5ee6a8', fillOpacity:0.8 })
+    }).addTo(map);
+    if(geojsonLayer.getBounds && geojsonLayer.getBounds().isValid()) map.fitBounds(geojsonLayer.getBounds(), { padding:[20,20] });
+    document.getElementById('geojson-status').textContent = '✅ Rendered on map';
+    document.getElementById('geojson-status').style.color = 'var(--green)';
+  } catch(e) {
+    document.getElementById('geojson-status').textContent = '❌ ' + e.message;
+    document.getElementById('geojson-status').style.color = '#f87171';
+  }
+}
+
+function loadCurrentAsGeoJSON() {
+  const gj = { type:'FeatureCollection', features: features.map(f => {
+    try { return f.layer.toGeoJSON(); } catch(e) { return null; }
+  }).filter(Boolean) };
+  document.getElementById('geojson-editor').value = JSON.stringify(gj, null, 2);
+  toast('Current features loaded','ok');
+}
+
+async function loadGeoJSONFromURL() {
+  const url = prompt('Enter GeoJSON URL:');
+  if(!url) return;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    document.getElementById('geojson-editor').value = JSON.stringify(data, null, 2);
+    renderGeoJSON();
+  } catch(e) { toast('Failed to load: ' + e.message, 'err'); }
+}
+
+// ─────────────────────────────────────────────
+// MEASURE
+// ─────────────────────────────────────────────
+function toggleMeasure() {
+  measureActive = !measureActive;
+  const btn = document.getElementById('measure-btn');
+  btn.textContent = measureActive ? '⏹ Stop Measuring' : '📏 Start Measuring';
+  btn.className = measureActive ? 'btn bp bsm' : 'btn bg bsm';
+  if(!measureActive) updateMeasureDisplay();
+  map.getContainer().style.cursor = measureActive ? 'crosshair' : '';
+  toast(measureActive ? 'Click map to measure' : 'Measure stopped','info');
+}
+
+function addMeasurePoint(latlng) {
+  measurePoints.push(latlng);
+  if(measureLayer) map.removeLayer(measureLayer);
+  if(measurePoints.length >= 2) {
+    measureLayer = L.polyline(measurePoints, { color:'#fbbf24', weight:2, dashArray:'6,4' }).addTo(map);
+  } else {
+    measureLayer = L.circleMarker(latlng, { radius:5, color:'#fbbf24' }).addTo(map);
+  }
+  updateMeasureDisplay();
+}
+
+function updateMeasureDisplay() {
+  if(!measurePoints.length) return;
+  const imperial = document.getElementById('unit-imperial').checked;
+  let totalDist = 0;
+  for(let i=0;i<measurePoints.length-1;i++) totalDist += measurePoints[i].distanceTo(measurePoints[i+1]);
+  const distStr = imperial ? (totalDist/1609.34).toFixed(2)+' mi' : totalDist < 1000 ? totalDist.toFixed(0)+' m' : (totalDist/1000).toFixed(2)+' km';
+  document.getElementById('measure-result').style.display = 'block';
+  document.getElementById('meas-distance').textContent = distStr;
+  document.getElementById('meas-points').textContent = measurePoints.length + ' point(s)';
+  // Area for polygon
+  if(measurePoints.length >= 3) {
+    const area = calcPolygonArea(measurePoints);
+    const areaStr = imperial ? (area/4046.86).toFixed(2)+' acres' : area < 1e6 ? area.toFixed(0)+' m²' : (area/1e6).toFixed(2)+' km²';
+    document.getElementById('meas-area').textContent = '▤ Area: ' + areaStr;
+  }
+}
+
+function calcPolygonArea(pts) {
+  // Shoelace formula on lat/lng (approximate)
+  let area = 0;
+  for(let i=0;i<pts.length;i++) {
+    const j = (i+1)%pts.length;
+    area += pts[i].lng * pts[j].lat;
+    area -= pts[j].lng * pts[i].lat;
+  }
+  const degArea = Math.abs(area/2);
+  return degArea * 111320 * 111320; // rough conversion
+}
+
+function clearMeasure() {
+  measurePoints = [];
+  if(measureLayer) { map.removeLayer(measureLayer); measureLayer=null; }
+  document.getElementById('measure-result').style.display='none';
+  if(measureActive) toggleMeasure();
+}
+
+// ─────────────────────────────────────────────
+// EXPORT
+// ─────────────────────────────────────────────
+function exportGeoJSON() {
+  const gj = { type:'FeatureCollection', features: features.map(f => {
+    try { return f.layer.toGeoJSON(); } catch(e) { return null; }
+  }).filter(Boolean) };
+  download(JSON.stringify(gj, null, 2), 'map.geojson', 'application/json');
+  toast('GeoJSON exported','ok');
+}
+
+function exportCSV() {
+  const markers = features.filter(f => f.type === 'marker');
+  if(!markers.length) { toast('No markers to export','err'); return; }
+  const rows = ['name,lat,lng'];
+  markers.forEach(f => {
+    const ll = f.layer.getLatLng();
+    rows.push(`${f.name},${ll.lat.toFixed(6)},${ll.lng.toFixed(6)}`);
+  });
+  download(rows.join('\n'), 'markers.csv', 'text/csv');
+  toast('CSV exported','ok');
+}
+
+function exportKML() {
+  const placemarks = features.map(f => {
+    try {
+      const gj = f.layer.toGeoJSON();
+      const coords = gj.geometry?.coordinates;
+      if(!coords) return '';
+      if(gj.geometry.type === 'Point') {
+        return `<Placemark><name>${f.name}</name><Point><coordinates>${coords[0]},${coords[1]},0</coordinates></Point></Placemark>`;
+      }
+      return '';
+    } catch(e) { return ''; }
+  }).join('\n');
+  const kml = `<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>Map Studio Export</name>${placemarks}</Document></kml>`;
+  download(kml, 'map.kml', 'application/vnd.google-earth.kml+xml');
+  toast('KML exported','ok');
+}
+
+function importGeoJSONFile(file) {
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const gj = JSON.parse(e.target.result);
+      const layer = L.geoJSON(gj, { style:{color:'#5ee6a8',weight:2,fillOpacity:0.15} }).addTo(map);
+      addFeature(layer, 'geojson', file.name.replace('.geojson',''));
+      map.fitBounds(layer.getBounds(), { padding:[20,20] });
+      toast('GeoJSON imported','ok');
+    } catch(err) { toast('Invalid GeoJSON','err'); }
+  };
+  reader.readAsText(file);
+}
+
+function clearAll() {
+  features.forEach(f => map.removeLayer(f.layer));
+  features.length = 0;
+  renderLayerList();
+  if(routeLayer) { map.removeLayer(routeLayer); routeLayer=null; }
+  if(heatLayer) { map.removeLayer(heatLayer); heatLayer=null; }
+  if(geojsonLayer) { map.removeLayer(geojsonLayer); geojsonLayer=null; }
+  heatData = [];
+  toast('Map cleared','info');
+}
+
+// ─────────────────────────────────────────────
+// STATUS BAR
+// ─────────────────────────────────────────────
+map.on('mousemove', e => {
+  const lat = e.latlng.lat.toFixed(4), lng = e.latlng.lng.toFixed(4);
+  document.getElementById('coord-display').textContent = lat + ', ' + lng;
+  document.getElementById('sb-coords').textContent = Math.abs(lat)+'°'+(lat>=0?'N':'S')+', '+Math.abs(lng)+'°'+(lng>=0?'E':'W');
+});
+map.on('zoomend', () => {
+  document.getElementById('sb-zoom').textContent = 'Zoom: ' + map.getZoom();
+});
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+function download(content, name, mime) {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url), 3000);
+}
+
+function toast(msg, type='') {
+  const el = document.createElement('div');
+  el.className = 'toast' + (type?' '+type:'');
+  el.textContent = msg;
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>el.remove(), 2800);
+}
 </script>
 </body>
 </html>
