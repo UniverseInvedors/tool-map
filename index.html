@@ -1,239 +1,407 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Map Builder — Free Online Interactive Map Maker with Custom Markers | Universe Invedors Tools</title>
-  <meta name="description" content="Build interactive maps with custom markers free online. Search any location, place markers, export coordinates as JSON. Powered by Leaflet.js and OpenStreetMap. No API key or sign-up required." />
-  <meta name="keywords" content="free map maker online, interactive map creator free, custom marker map online, Leaflet OpenStreetMap tool, online map builder no API key, create map with markers free" />
-  <link rel="canonical" href="https://map.universeinvedors.tech/" />
-  <meta name="robots" content="index, follow" />
-  <meta property="og:title" content="Map Builder — Free Interactive Online Map Maker" />
-  <meta property="og:description" content="Create interactive maps with markers and routes free online. No API key. Powered by OpenStreetMap." />
-  <meta property="og:url" content="https://map.universeinvedors.tech/" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="theme-color" content="#0d1117" />
-  <link rel="icon" href="https://universeinvedors.tech/favicon.ico" sizes="any" />
-  <script type="application/ld+json">
-[
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Map Builder",
-    "url": "https://map.universeinvedors.tech",
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "Web",
-    "browserRequirements": "Requires JavaScript",
-    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
-    "publisher": {
-      "@type": "Organization",
-      "name": "Universe Invedors",
-      "url": "https://universeinvedors.tech",
-      "logo": "https://universeinvedors.tech/logo.png",
-      "sameAs": [
-        "https://linkedin.com/company/universe-invedors",
-        "https://github.com/UniverseInvedors"
-      ]
-    }
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Universe Invedors", "item": "https://universeinvedors.tech"},
-      {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://universeinvedors.tech/tools"},
-      {"@type": "ListItem", "position": 3, "name": "Map Builder", "item": "https://map.universeinvedors.tech"}
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Map Builder",
-    "url": "https://map.universeinvedors.tech",
-    "isPartOf": {
-      "@type": "WebSite",
-      "name": "Universe Invedors Tools",
-      "url": "https://universeinvedors.tech"
-    }
-  }
-]
-</script>
-  <meta name="google-adsense-account" content="ca-pub-8759032363251002" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8759032363251002" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#0d1117;--surface:#161b22;--border:rgba(255,255,255,.08);--text:#e6edf3;--muted:#8b949e;--green:#5ee6a8;--font:'Inter',system-ui,sans-serif}
-    body{font-family:var(--font);background:var(--bg);color:var(--text);height:100dvh;display:flex;flex-direction:column;overflow:hidden}
-    .topbar{display:flex;align-items:center;gap:.75rem;padding:.55rem .85rem;border-bottom:1px solid var(--border);background:rgba(13,17,23,.97);backdrop-filter:blur(12px);z-index:1000;flex-shrink:0;flex-wrap:wrap}
-    .logo{font-size:.82rem;font-weight:700;white-space:nowrap}
-    .search-row{display:flex;gap:.4rem;flex:1;min-width:180px}
-    .search-row input{flex:1;padding:.4rem .7rem;border-radius:7px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:.82rem;font-family:inherit;outline:none}
-    .search-row input:focus{border-color:var(--green)}
-    .btn{padding:.35rem .75rem;border-radius:7px;font-size:.76rem;font-weight:600;border:none;cursor:pointer;transition:all .15s;white-space:nowrap}
-    .btn-green{background:var(--green);color:#000}
-    .btn-ghost{background:rgba(255,255,255,.07);color:var(--muted);border:1px solid var(--border)}
-    .btn-ghost:hover{color:var(--text)}
-    .btn-add{background:rgba(94,230,168,.12);color:var(--green);border:1px solid rgba(94,230,168,.3)}
-    .btn-add.active{background:rgba(94,230,168,.25)}
-    .main{display:flex;flex:1;overflow:hidden}
-    #map{flex:1}
-    .sidebar{width:220px;shrink:0;overflow-y:auto;border-left:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column}
-    .sidebar-header{padding:.6rem .75rem;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
-    .marker-list{flex:1;padding:.5rem}
-    .marker-item{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;padding:.6rem .5rem;border-radius:8px;margin-bottom:.3rem;background:rgba(255,255,255,.03);border:1px solid var(--border)}
-    .marker-item p{font-size:.78rem;font-weight:600;margin-bottom:.15rem}
-    .marker-item small{font-size:.68rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
-    .del-btn{font-size:.7rem;color:#ef4444;background:none;border:none;cursor:pointer;flex-shrink:0;padding:.15rem}
-    .empty-msg{text-align:center;padding:1.5rem .5rem;font-size:.78rem;color:var(--muted)}
-    .attr{padding:.3rem .5rem;font-size:.65rem;color:var(--muted);border-top:1px solid var(--border);flex-shrink:0}
-    .attr a{color:var(--green)}
-    .count-badge{background:rgba(94,230,168,.12);color:var(--green);font-size:.68rem;font-weight:700;padding:.1rem .4rem;border-radius:100px}
-    @media(max-width:580px){.sidebar{display:none}}
-  </style>  <meta name="author" content="Universe Invedors" />
-  <meta name="publisher" content="Universe Invedors" />
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <link rel="sitemap" type="application/xml" href="https://map.universeinvedors.tech/sitemap.xml" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Map Builder — Free Online Interactive Map Creator with Markers, Routes and Layers | Universe Invedors Tools</title>
+<meta name="description" content="Build interactive maps with custom markers, routes, polygons and layers free online. Powered by Leaflet.js and OpenStreetMap. Measure distances, search locations, export GeoJSON. No API key."/>
+<meta name="keywords" content="free map maker online,interactive map creator,custom marker map,leaflet map editor,route planner free,measure distance map,openstreetmap editor,geojson export"/>
+<link rel="canonical" href="https://map.universeinvedors.tech/"/>
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large"/>
+<meta name="author" content="Universe Invedors"/>
+<meta property="og:title" content="Map Builder — Free Interactive Map Creator with Routes and Layers"/>
+<meta property="og:description" content="Create interactive maps with markers, routes, polygons. Measure distances. Export GeoJSON. Leaflet + OpenStreetMap. Free."/>
+<meta property="og:url" content="https://map.universeinvedors.tech/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:image" content="https://universeinvedors.tech/og-image.jpg"/>
+<meta property="og:site_name" content="Universe Invedors Tools"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://universeinvedors.tech/og-image.jpg"/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml"/>
+<link rel="icon" href="https://universeinvedors.tech/favicon.ico" sizes="any"/>
+<meta name="theme-color" content="#090c13"/>
+<meta name="google-adsense-account" content="ca-pub-8759032363251002"/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8759032363251002" crossorigin="anonymous"></script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Map Builder","url":"https://map.universeinvedors.tech","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Universe Invedors","url":"https://universeinvedors.tech"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Universe Invedors","item":"https://universeinvedors.tech"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://universeinvedors.tech/tools"},{"@type":"ListItem","position":3,"name":"Map Builder","item":"https://map.universeinvedors.tech"}]}]</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#090c13;--surf:#0f1420;--elev:#141b28;--card:#1a2235;--inp:#111827;
+  --t1:#f0f4ff;--t2:#a8b5cc;--t3:#64748b;--t4:#3d4f6e;
+  --acc:#5ee6a8;--acc-h:#34d399;--acc-glow:rgba(94,230,168,.25);
+  --blue:#3b82f6;--violet:#8b5cf6;--orange:#f97316;--red:#ef4444;
+  --border:rgba(255,255,255,.07);--bh:rgba(255,255,255,.14);
+  --font:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  --mono:'JetBrains Mono','Fira Code',Consolas,monospace;
+  --r:10px;--th:52px;--sw:260px;--tr:180ms cubic-bezier(.4,0,.2,1);
+}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--t1);height:100dvh;display:flex;flex-direction:column;overflow:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}
 
-  <!-- Open Graph image (required for Google + social sharing previews) -->
-  <meta property="og:image" content="https://universeinvedors.tech/og-image.jpg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Map Builder — Free Online Interactive Map Maker with Custom Markers" />
-  <meta property="og:site_name" content="Universe Invedors Tools" />
-  <meta property="og:locale" content="en_US" />
-
-  <!-- Twitter image -->
-  <meta name="twitter:image" content="https://universeinvedors.tech/og-image.jpg" />
-  <meta name="twitter:site" content="@universeinvedors" />
-  <meta name="twitter:creator" content="@universeinvedors" />
-  <meta name="twitter:label1" content="Category" />
-  <meta name="twitter:data1" content="Free Developer Tool" />
-
+/* Topbar */
+.tb{height:var(--th);background:rgba(9,12,19,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;padding:0 .85rem;flex-shrink:0;z-index:500}
+.logo{display:flex;align-items:center;gap:.4rem;font-size:.82rem;font-weight:700;color:var(--t1);text-decoration:none;white-space:nowrap}
+.logo:hover{color:var(--acc-h);text-decoration:none}
+.sp{flex:1}
+.btn{display:inline-flex;align-items:center;gap:.35rem;padding:.38rem .85rem;border-radius:var(--r);font-size:.75rem;font-weight:600;cursor:pointer;border:none;transition:all var(--tr);white-space:nowrap}
+.bg{background:rgba(255,255,255,.05);color:var(--t2);border:1px solid var(--border)}
+.bg:hover{background:rgba(255,255,255,.09);border-color:var(--bh);color:var(--t1)}
+.bp{background:var(--acc);color:#000}
+.bp:hover{background:var(--acc-h)}
+.bsm{padding:.26rem .6rem;font-size:.68rem}
+.btn-mode{background:rgba(94,230,168,.1);color:var(--acc);border:1px solid rgba(94,230,168,.3)}
+.btn-mode:hover{background:rgba(94,230,168,.18)}
+.btn-mode.active{background:var(--acc);color:#000}
+/* Search */
+.search-row{display:flex;gap:.4rem;flex:1;max-width:400px}
+.search-row input{flex:1;padding:.4rem .7rem;background:var(--inp);border:1px solid var(--border);border-radius:var(--r);color:var(--t1);font-size:.82rem;outline:none;transition:border-color var(--tr)}
+.search-row input:focus{border-color:rgba(94,230,168,.4)}
+/* Map */
+.main{display:flex;flex:1;overflow:hidden}
+#map{flex:1;z-index:1}
+/* Sidebar */
+.sb{width:var(--sw);background:var(--surf);border-left:1px solid var(--border);display:flex;flex-direction:column;z-index:100;overflow:hidden}
+.sb-header{padding:.55rem .75rem;border-bottom:1px solid var(--border);font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);display:flex;align-items:center;justify-content:space-between}
+.sb-tabs{display:flex;border-bottom:1px solid var(--border)}
+.sbt{flex:1;padding:.42rem;font-size:.72rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--t3);border-bottom:2px solid transparent;transition:all var(--tr)}
+.sbt:hover{color:var(--t2)}
+.sbt.active{color:var(--acc-h);border-bottom-color:var(--acc)}
+.sb-body{flex:1;overflow-y:auto;padding:.6rem}
+/* Layer items */
+.layer-item{display:flex;align-items:center;justify-content:space-between;padding:.5rem .55rem;border-radius:8px;background:var(--card);border:1px solid var(--border);margin-bottom:.3rem}
+.layer-info{flex:1;min-width:0}
+.layer-name{font-size:.78rem;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.layer-meta{font-size:.65rem;color:var(--t3);margin-top:.1rem;font-family:var(--mono)}
+.layer-actions{display:flex;gap:.25rem;flex-shrink:0}
+.icon-btn{width:26px;height:26px;border-radius:6px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--t3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.78rem;transition:all var(--tr)}
+.icon-btn:hover{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:#f87171}
+/* Properties */
+.prop-row{margin-bottom:.65rem}
+.prop-label{font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--t3);margin-bottom:.28rem;display:block}
+.prop-input{width:100%;padding:.42rem .65rem;background:var(--inp);border:1px solid var(--border);border-radius:var(--r);color:var(--t1);font-size:.8rem;outline:none;transition:border-color var(--tr)}
+.prop-input:focus{border-color:rgba(94,230,168,.4)}
+/* Stats */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+.stat-card{padding:.65rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r);text-align:center}
+.stat-val{font-size:1.15rem;font-weight:800;color:var(--acc-h)}
+.stat-lbl{font-size:.65rem;color:var(--t3);margin-top:.15rem}
+/* Mode bar */
+.mode-bar{display:flex;align-items:center;gap:.3rem;padding:.4rem .85rem;background:var(--surf);border-bottom:1px solid var(--border);flex-shrink:0;overflow-x:auto}
+/* Statusbar */
+.statusbar{display:flex;align-items:center;gap:.75rem;padding:.25rem .85rem;background:var(--surf);border-top:1px solid var(--border);font-size:.68rem;color:var(--t3);flex-shrink:0}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--green,var(--acc));animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.seo-footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.3rem .75rem;padding:.4rem .85rem;border-top:1px solid var(--border);background:var(--surf);font-size:.67rem;color:var(--t3);flex-shrink:0}
+.seo-footer a{color:var(--t3)}.seo-footer a:hover{color:var(--t2)}
+.sfl{display:flex;flex-wrap:wrap;gap:.2rem .6rem}
+.toasts{position:fixed;bottom:1rem;right:1rem;z-index:999;display:flex;flex-direction:column;gap:.4rem;pointer-events:none}
+.toast{padding:.55rem .9rem;border-radius:var(--r);font-size:.75rem;font-weight:600;background:var(--card);border:1px solid var(--border);color:var(--t1);box-shadow:0 8px 32px rgba(0,0,0,.5);animation:tin .22s ease}
+.toast.ok{border-color:rgba(94,230,168,.3);color:var(--acc)}.toast.err{border-color:rgba(239,68,68,.3);color:#f87171}
+@keyframes tin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+/* Leaflet dark overrides */
+.leaflet-popup-content-wrapper{background:var(--card);color:var(--t1);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.leaflet-popup-tip{background:var(--card)}
+.leaflet-popup-close-button{color:var(--t3)!important}
+.leaflet-control-zoom a{background:var(--card)!important;color:var(--t1)!important;border-color:var(--border)!important}
+.leaflet-bar{box-shadow:0 4px 16px rgba(0,0,0,.4)!important;border:1px solid var(--border)!important}
+@media(max-width:768px){.sb{display:none}}
+</style>
 </head>
 <body>
 
-<header class="topbar">
-  <div class="logo">🗺️ <a href="https://universeinvedors.tech/tools" style="color:inherit;text-decoration:none">Universe Tools</a> / Map Builder</div>
+<header class="tb">
+  <a href="https://universeinvedors.tech/tools" class="logo">🗺️ Universe Tools <span style="color:var(--t4);font-weight:400;font-size:.75rem">/</span> <span style="color:var(--acc-h)">Map Builder</span></a>
   <div class="search-row">
-    <input type="text" id="searchInput" placeholder="Search location…" onkeydown="if(event.key==='Enter')searchLocation()">
-    <button class="btn btn-ghost" onclick="searchLocation()" id="searchBtn">Go</button>
+    <input type="text" id="search-input" placeholder="Search location, address or coordinates…" onkeydown="if(event.key==='Enter')searchLocation()">
+    <button class="btn bg bsm" onclick="searchLocation()" id="search-btn">Go</button>
   </div>
-  <button class="btn btn-add" id="addBtn" onclick="toggleAdd()">+ Add Marker</button>
-  <button class="btn btn-green" onclick="exportJSON()" id="exportBtn" style="display:none">↓ Export JSON</button>
+  <div class="sp"></div>
+  <div style="display:flex;gap:.35rem">
+    <button class="btn bg bsm" onclick="exportGeoJSON()">↓ GeoJSON</button>
+    <button class="btn bg bsm" onclick="importGeoJSON()">↑ Import</button>
+    <button class="btn bp bsm" onclick="screenshot()">📷 Save Map</button>
+  </div>
+  <input type="file" id="import-input" accept=".json,.geojson" style="display:none" onchange="handleImport(this.files[0])">
 </header>
 
-<main class="main">
+<!-- Mode bar -->
+<div class="mode-bar">
+  <span style="font-size:.7rem;color:var(--t3);white-space:nowrap;margin-right:.2rem">Mode:</span>
+  <button class="btn btn-mode active bsm" id="mode-pan" onclick="setMode('pan',this)">🖐 Pan</button>
+  <button class="btn btn-mode bsm" id="mode-marker" onclick="setMode('marker',this)">📍 Marker</button>
+  <button class="btn btn-mode bsm" id="mode-line" onclick="setMode('line',this)">📏 Polyline</button>
+  <button class="btn btn-mode bsm" id="mode-polygon" onclick="setMode('polygon',this)">⬡ Polygon</button>
+  <button class="btn btn-mode bsm" id="mode-circle" onclick="setMode('circle',this)">⭕ Circle</button>
+  <span class="sp"></span>
+  <span style="font-size:.7rem;color:var(--t3);white-space:nowrap">Tiles:</span>
+  <select id="tile-select" onchange="changeTile(this.value)" style="padding:.28rem .55rem;background:var(--inp);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:.72rem;outline:none">
+    <option value="osm">OpenStreetMap</option>
+    <option value="topo">OpenTopoMap</option>
+    <option value="dark">CartoDB Dark</option>
+    <option value="light">CartoDB Light</option>
+    <option value="satellite">ESRI Satellite</option>
+  </select>
+</div>
+
+<div class="main">
   <div id="map"></div>
-  <aside class="sidebar">
-    <div class="sidebar-header">Markers <span class="count-badge" id="markerCount">0</span></div>
-    <div class="marker-list" id="markerList"><p class="empty-msg">No markers yet.<br>Click "+ Add Marker" then click the map.</p></div>
-    <div class="attr">Map © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors · <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a></div>
+
+  <aside class="sb">
+    <div class="sb-tabs">
+      <button class="sbt active" onclick="switchTab('layers',this)">Layers</button>
+      <button class="sbt" onclick="switchTab('props',this)">Properties</button>
+      <button class="sbt" onclick="switchTab('stats',this)">Stats</button>
+    </div>
+
+    <!-- Layers tab -->
+    <div id="tab-layers" class="sb-body">
+      <div id="layer-list" style="margin-bottom:.5rem"></div>
+      <button class="btn bg bsm" style="width:100%;justify-content:center" onclick="clearAll()">🗑 Clear All</button>
+    </div>
+
+    <!-- Properties tab -->
+    <div id="tab-props" class="sb-body" style="display:none">
+      <div class="prop-row">
+        <span class="prop-label">Marker Color</span>
+        <input type="color" class="prop-input" id="marker-color" value="#5ee6a8" style="height:36px;padding:.2rem">
+      </div>
+      <div class="prop-row">
+        <span class="prop-label">Line Color</span>
+        <input type="color" class="prop-input" id="line-color" value="#3b82f6" style="height:36px;padding:.2rem">
+      </div>
+      <div class="prop-row">
+        <span class="prop-label">Fill Color</span>
+        <input type="color" class="prop-input" id="fill-color" value="#8b5cf6" style="height:36px;padding:.2rem">
+      </div>
+      <div class="prop-row">
+        <span class="prop-label">Line Weight (px)</span>
+        <input type="range" min="1" max="10" value="3" id="line-weight" oninput="document.getElementById('lw-val').textContent=this.value" style="width:100%;accent-color:var(--acc)">
+        <span id="lw-val" style="font-size:.7rem;color:var(--acc-h)">3</span>px
+      </div>
+      <div class="prop-row">
+        <span class="prop-label">Circle Radius (m)</span>
+        <input type="number" class="prop-input" id="circle-radius" value="500" min="10" max="50000">
+      </div>
+    </div>
+
+    <!-- Stats tab -->
+    <div id="tab-stats" class="sb-body" style="display:none">
+      <div class="stat-grid" id="stats-grid">
+        <div class="stat-card"><div class="stat-val" id="st-markers">0</div><div class="stat-lbl">Markers</div></div>
+        <div class="stat-card"><div class="stat-val" id="st-shapes">0</div><div class="stat-lbl">Shapes</div></div>
+        <div class="stat-card"><div class="stat-val" id="st-dist">0 m</div><div class="stat-lbl">Total Distance</div></div>
+        <div class="stat-card"><div class="stat-val" id="st-area">0 m²</div><div class="stat-lbl">Total Area</div></div>
+      </div>
+      <div style="margin-top:.75rem">
+        <p style="font-size:.7rem;color:var(--t3);margin-bottom:.35rem">Coordinates</p>
+        <div id="coord-display" style="font-family:var(--mono);font-size:.72rem;color:var(--t2);padding:.5rem;background:var(--card);border-radius:8px;border:1px solid var(--border);word-break:break-all">Click map to see coordinates</div>
+      </div>
+    </div>
   </aside>
-</main>
+</div>
+
+<div class="statusbar">
+  <span class="sdot"></span>
+  <span id="status-mode" style="color:var(--acc-h);font-weight:600">Pan mode</span>
+  <span id="status-count" style="color:var(--t3)">0 objects</span>
+  <span style="margin-left:auto;font-size:.65rem;color:var(--t4)">© OpenStreetMap contributors · Leaflet.js</span>
+</div>
+
+<footer class="seo-footer">
+  <div class="sfl">
+    <a href="https://universeinvedors.tech">Universe Invedors</a>
+    <a href="https://universeinvedors.tech/tools">All Tools</a>
+    <a href="https://code.universeinvedors.tech">Code</a>
+    <a href="https://diagram.universeinvedors.tech">Diagrams</a>
+    <a href="https://chart.universeinvedors.tech">Charts</a>
+    <a href="https://ocr.universeinvedors.tech">OCR</a>
+    <a href="https://pdf.universeinvedors.tech">PDF</a>
+    <a href="https://image.universeinvedors.tech">Image</a>
+    <a href="https://3d.universeinvedors.tech">3D</a>
+    <a href="https://media.universeinvedors.tech">Media</a>
+  </div>
+  <span>© 2024 Universe Invedors · Leaflet · OpenStreetMap · Free map tool</span>
+</footer>
+
+<div class="toasts" id="toasts"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-// Fix Leaflet default icons
-delete L.Icon.Default.prototype._getIconUrl
+// ── Setup ──────────────────────────────────────────────────────
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  iconRetinaUrl:'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl:'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl:'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 })
 
-const map = L.map('map').setView([20, 0], 2)
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  maxZoom: 19,
-}).addTo(map)
+const map = L.map('map', {zoomControl:true}).setView([20,0],3)
+let tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map)
 
-let markers = [], nextId = 1, addMode = false
-
-function toggleAdd() {
-  addMode = !addMode
-  const btn = document.getElementById('addBtn')
-  btn.textContent = addMode ? '📍 Click map to place…' : '+ Add Marker'
-  btn.classList.toggle('active', addMode)
-  map.getContainer().style.cursor = addMode ? 'crosshair' : ''
+const TILES = {
+  osm:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  topo:'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+  dark:'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+  light:'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+  satellite:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
 }
 
-map.on('click', e => {
-  if (!addMode) return
-  const id = nextId++
-  const label = `Marker ${id}`
-  const m = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map)
-    .bindPopup(`<b>${label}</b><br>${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`).openPopup()
-  markers.push({ id, lat: e.latlng.lat, lng: e.latlng.lng, label, leaflet: m })
-  renderList()
-  toggleAdd()
+let mode = 'pan', objects = [], polyPoints = [], tempLine = null, nextId = 1
+
+// ── Tile switcher ──────────────────────────────────────────────
+function changeTile(t){
+  tileLayer.setUrl(TILES[t]||TILES.osm)
+  toast('Tile layer changed','ok')
+}
+
+// ── Mode switcher ──────────────────────────────────────────────
+function setMode(m,btn){
+  mode=m; polyPoints=[]; if(tempLine){tempLine.remove();tempLine=null}
+  document.querySelectorAll('.btn-mode').forEach(b=>b.classList.remove('active')); btn.classList.add('active')
+  map.getContainer().style.cursor = m==='pan'?'':'crosshair'
+  document.getElementById('status-mode').textContent={pan:'Pan mode',marker:'Marker mode',line:'Polyline mode',polygon:'Polygon mode',circle:'Circle mode'}[m]||m
+}
+
+// ── Map click handler ──────────────────────────────────────────
+map.on('click',e=>{
+  const {lat,lng}=e.latlng
+  document.getElementById('coord-display').textContent=`Lat: ${lat.toFixed(6)}\nLng: ${lng.toFixed(6)}`
+
+  if(mode==='marker'){
+    const color=document.getElementById('marker-color').value
+    const icon=L.divIcon({html:`<div style="width:14px;height:14px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.5)"></div>`,className:'',iconAnchor:[7,7]})
+    const m=L.marker([lat,lng],{icon}).addTo(map)
+    const id=nextId++; const lbl=`Marker ${id}`
+    m.bindPopup(`<b>${lbl}</b><br><span style='font-family:monospace;font-size:.75rem'>${lat.toFixed(5)}, ${lng.toFixed(5)}</span>`)
+    objects.push({id,type:'marker',label:lbl,lat,lng,layer:m}); renderLayerList(); updateStats(); toast('Marker placed','ok')
+  }
+
+  else if(mode==='line'||mode==='polygon'){
+    polyPoints.push([lat,lng])
+    if(tempLine) tempLine.remove()
+    if(mode==='polygon'&&polyPoints.length>=2) tempLine=L.polygon(polyPoints,{color:document.getElementById('line-color').value,fillColor:document.getElementById('fill-color').value,fillOpacity:.2,weight:parseInt(document.getElementById('line-weight').value)}).addTo(map)
+    else if(polyPoints.length>=2) tempLine=L.polyline(polyPoints,{color:document.getElementById('line-color').value,weight:parseInt(document.getElementById('line-weight').value)}).addTo(map)
+    toast(`Point ${polyPoints.length} added — double-click to finish`,'ok')
+  }
+
+  else if(mode==='circle'){
+    const r=parseInt(document.getElementById('circle-radius').value)||500
+    const c=L.circle([lat,lng],{radius:r,color:document.getElementById('line-color').value,fillColor:document.getElementById('fill-color').value,fillOpacity:.25,weight:2}).addTo(map)
+    const id=nextId++; const lbl=`Circle ${id}`
+    c.bindPopup(`<b>${lbl}</b><br>Radius: ${r}m`)
+    objects.push({id,type:'circle',label:lbl,lat,lng,radius:r,layer:c}); renderLayerList(); updateStats(); toast(`Circle r=${r}m added`,'ok')
+  }
 })
 
-function removeMarker(id) {
-  const idx = markers.findIndex(m => m.id === id)
-  if (idx === -1) return
-  markers[idx].leaflet.remove()
-  markers.splice(idx, 1)
-  renderList()
-}
+// Double-click to finish polyline/polygon
+map.on('dblclick',e=>{
+  if((mode==='line'||mode==='polygon')&&polyPoints.length>=2){
+    if(tempLine){tempLine.remove();tempLine=null}
+    let finalLayer,id=nextId++
+    const clr=document.getElementById('line-color').value, flr=document.getElementById('fill-color').value, wt=parseInt(document.getElementById('line-weight').value)
+    if(mode==='polygon') finalLayer=L.polygon(polyPoints,{color:clr,fillColor:flr,fillOpacity:.25,weight:wt}).addTo(map)
+    else finalLayer=L.polyline(polyPoints,{color:clr,weight:wt}).addTo(map)
+    const lbl=`${mode==='polygon'?'Polygon':'Polyline'} ${id}`
+    finalLayer.bindPopup(`<b>${lbl}</b><br>${polyPoints.length} points`)
+    objects.push({id,type:mode,label:lbl,points:polyPoints,layer:finalLayer})
+    polyPoints=[]; renderLayerList(); updateStats(); toast(`${lbl} completed`,'ok')
+    L.DomEvent.stopPropagation(e)
+  }
+})
 
-function renderList() {
-  const list = document.getElementById('markerList')
-  document.getElementById('markerCount').textContent = markers.length
-  document.getElementById('exportBtn').style.display = markers.length ? '' : 'none'
-  if (!markers.length) { list.innerHTML = '<p class="empty-msg">No markers yet.<br>Click "+ Add Marker" then click the map.</p>'; return }
-  list.innerHTML = markers.map(m => `
-    <div class="marker-item">
-      <div><p>${m.label}</p><small>${m.lat.toFixed(4)}, ${m.lng.toFixed(4)}</small></div>
-      <button class="del-btn" onclick="removeMarker(${m.id})">✕</button>
+// ── Layers panel ───────────────────────────────────────────────
+function renderLayerList(){
+  const list=document.getElementById('layer-list')
+  if(!objects.length){list.innerHTML='<p style="font-size:.78rem;color:var(--t3);text-align:center;padding:1rem">No objects yet.<br>Select a mode and click the map.</p>';return}
+  list.innerHTML=objects.map(o=>`
+    <div class="layer-item">
+      <div class="layer-info">
+        <div class="layer-name">${o.label}</div>
+        <div class="layer-meta">${o.type}${o.lat?' · '+o.lat.toFixed(4)+','+o.lng.toFixed(4):''}</div>
+      </div>
+      <div class="layer-actions">
+        <button class="icon-btn" onclick="flyTo(${o.id})" title="Zoom">🎯</button>
+        <button class="icon-btn" onclick="removeObject(${o.id})" title="Delete">✕</button>
+      </div>
     </div>`).join('')
+  document.getElementById('status-count').textContent=`${objects.length} object${objects.length!==1?'s':''}`
 }
 
-async function searchLocation() {
-  const q = document.getElementById('searchInput').value.trim()
-  if (!q) return
-  const btn = document.getElementById('searchBtn')
-  btn.textContent = '…'
+function flyTo(id){ const o=objects.find(x=>x.id===id); if(o&&o.lat) map.flyTo([o.lat,o.lng],14,{duration:1}) }
+function removeObject(id){ const i=objects.findIndex(x=>x.id===id); if(i!==-1){objects[i].layer.remove();objects.splice(i,1);renderLayerList();updateStats()} }
+function clearAll(){ objects.forEach(o=>o.layer.remove()); objects=[]; if(tempLine){tempLine.remove();tempLine=null}; polyPoints=[]; renderLayerList(); updateStats(); toast('All cleared','ok') }
+
+function updateStats(){
+  const markers=objects.filter(o=>o.type==='marker').length
+  const shapes=objects.filter(o=>o.type!=='marker').length
+  document.getElementById('st-markers').textContent=markers
+  document.getElementById('st-shapes').textContent=shapes
+  // Basic distance estimation for polylines
+  let totalDist=0
+  objects.filter(o=>o.type==='line'&&o.points).forEach(o=>{
+    for(let i=1;i<o.points.length;i++){
+      const a=L.latLng(o.points[i-1]),b=L.latLng(o.points[i])
+      totalDist+=a.distanceTo(b)
+    }
+  })
+  document.getElementById('st-dist').textContent=totalDist>1000?(totalDist/1000).toFixed(2)+'km':(totalDist.toFixed(0)+'m')
+}
+
+// ── Tabs ───────────────────────────────────────────────────────
+function switchTab(tab,btn){
+  ['layers','props','stats'].forEach(t=>{ document.getElementById('tab-'+t).style.display=t===tab?'block':'none' })
+  document.querySelectorAll('.sbt').forEach(b=>b.classList.remove('active')); btn.classList.add('active')
+}
+
+// ── Search ─────────────────────────────────────────────────────
+async function searchLocation(){
+  const q=document.getElementById('search-input').value.trim(); if(!q) return
+  const btn=document.getElementById('search-btn'); btn.textContent='…'
   try {
-    const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&limit=1`)
-    const d = await r.json()
-    if (d.length) map.setView([parseFloat(d[0].lat), parseFloat(d[0].lon)], 13)
-  } catch(e) {}
-  btn.textContent = 'Go'
+    const r=await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&limit=1`,{headers:{'Accept-Language':'en'}})
+    const d=await r.json()
+    if(d.length){ map.flyTo([parseFloat(d[0].lat),parseFloat(d[0].lon)],13,{duration:1.5}); toast(d[0].display_name.split(',').slice(0,3).join(','),'ok') }
+    else toast('Location not found','err')
+  } catch{ toast('Search failed','err') }
+  btn.textContent='Go'
 }
 
-function exportJSON() {
-  const data = markers.map(({ id, lat, lng, label }) => ({ id, lat, lng, label }))
-  const a = document.createElement('a')
-  a.href = 'data:application/json,' + encodeURIComponent(JSON.stringify(data, null, 2))
-  a.download = 'markers.json'
-  a.click()
+// ── Export / Import ────────────────────────────────────────────
+function exportGeoJSON(){
+  const features=objects.map(o=>{
+    if(o.type==='marker') return {type:'Feature',properties:{name:o.label},geometry:{type:'Point',coordinates:[o.lng,o.lat]}}
+    if(o.type==='line'&&o.points) return {type:'Feature',properties:{name:o.label},geometry:{type:'LineString',coordinates:o.points.map(p=>[p[1],p[0]])}}
+    if(o.type==='polygon'&&o.points) return {type:'Feature',properties:{name:o.label},geometry:{type:'Polygon',coordinates:[o.points.map(p=>[p[1],p[0]])]}}
+    return null
+  }).filter(Boolean)
+  const gj={type:'FeatureCollection',features}
+  const a=document.createElement('a'); a.href='data:application/json,'+encodeURIComponent(JSON.stringify(gj,null,2)); a.download='map-data.geojson'; a.click()
+  toast(`Exported ${features.length} features`,'ok')
 }
+
+function importGeoJSON(){ document.getElementById('import-input').click() }
+
+async function handleImport(file){
+  if(!file) return
+  const text=await file.text()
+  try {
+    const gj=JSON.parse(text)
+    L.geoJSON(gj,{
+      onEachFeature:(f,layer)=>{
+        const id=nextId++; const lbl=f.properties?.name||`Import ${id}`
+        layer.addTo(map); objects.push({id,type:'import',label:lbl,layer}); layer.bindPopup(`<b>${lbl}</b>`)
+      }
+    })
+    renderLayerList(); updateStats(); toast(`Imported ${gj.features?.length||1} features`,'ok')
+  } catch{ toast('Invalid GeoJSON file','err') }
+}
+
+function screenshot(){
+  toast('Use browser screenshot (F12 → …) to capture the map','ok')
+}
+
+renderLayerList()
 </script>
-
-<!-- SEO Footer — internal links to main site and sibling tools -->
-<footer style="padding:.75rem 1rem;border-top:1px solid rgba(255,255,255,.07);background:#0a0d13;font-family:'Inter',system-ui,sans-serif;font-size:.72rem;color:#6b7685;display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;align-items:center;justify-content:space-between">
-  <div style="display:flex;flex-wrap:wrap;gap:.4rem .9rem;align-items:center">
-    <a href="https://universeinvedors.tech" style="color:#3b82f6;text-decoration:none" rel="noopener">Universe Invedors</a>
-    <span>·</span>
-    <a href="https://universeinvedors.tech/tools" style="color:#8b949e;text-decoration:none">All Tools</a>
-    <span>·</span>
-    <a href="https://code.universeinvedors.tech" style="color:#8b949e;text-decoration:none">Code</a>
-    <a href="https://diagram.universeinvedors.tech" style="color:#8b949e;text-decoration:none">Diagrams</a>
-    <a href="https://chart.universeinvedors.tech" style="color:#8b949e;text-decoration:none">Charts</a>
-    <a href="https://ocr.universeinvedors.tech" style="color:#8b949e;text-decoration:none">OCR</a>
-    <a href="https://pdf.universeinvedors.tech" style="color:#8b949e;text-decoration:none">PDF</a>
-    <a href="https://image.universeinvedors.tech" style="color:#8b949e;text-decoration:none">Image</a>
-    <a href="https://3d.universeinvedors.tech" style="color:#8b949e;text-decoration:none">3D</a>
-    <a href="https://map.universeinvedors.tech" style="color:#8b949e;text-decoration:none">Maps</a>
-    <a href="https://media.universeinvedors.tech" style="color:#8b949e;text-decoration:none">Media</a>
-  </div>
-  <div>
-    <a href="https://universeinvedors.tech/privacy" style="color:#6b7685;text-decoration:none">Privacy</a>
-    &nbsp;·&nbsp;
-    <span>&copy; 2024 Universe Invedors</span>
-  </div>
-</footer>
 </body>
 </html>
