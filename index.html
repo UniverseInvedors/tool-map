@@ -21,6 +21,13 @@
 <meta name="theme-color" content="#090c13"/>
 <meta name="google-adsense-account" content="ca-pub-8759032363251002"/>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8759032363251002" crossorigin="anonymous"></script>
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3GH7524RVW"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-3GH7524RVW',{page_title:document.title,page_location:location.href});
+function gaEvent(action,category,label,value){gtag('event',action,{event_category:category,event_label:label,value:value});}
+</script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
@@ -904,3 +911,33 @@ function toast(msg, type='') {
 </script>
 </body>
 </html>
+<script>
+// GA4 Custom Events — Map Builder
+(function(){
+  // Track map layer/tile switches
+  document.querySelectorAll('.tab,.et,[data-layer]').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      gaEvent('map_layer_changed','Map Builder',this.textContent.trim());
+    });
+  });
+  // Track marker additions
+  document.querySelectorAll('button').forEach(function(btn){
+    var t=btn.textContent.trim().toLowerCase();
+    if(t.includes('marker')||t.includes('pin')||t.includes('add')){
+      btn.addEventListener('click',function(){gaEvent('marker_added','Map Builder','pin');});
+    }
+    if(t.includes('search')||t.includes('geocod')||t.includes('find')){
+      btn.addEventListener('click',function(){gaEvent('location_searched','Map Builder','geocode');});
+    }
+    if(t.includes('export')||t.includes('download')||t.includes('geojson')||t.includes('csv')){
+      btn.addEventListener('click',function(){
+        var fmt=t.includes('geojson')?'geojson':t.includes('csv')?'csv':'file';
+        gaEvent('map_exported','Map Builder',fmt);
+      });
+    }
+    if(t.includes('measure')||t.includes('distance')||t.includes('area')){
+      btn.addEventListener('click',function(){gaEvent('measurement_used','Map Builder',t.substring(0,30));});
+    }
+  });
+})();
+</script>
