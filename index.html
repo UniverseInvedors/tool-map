@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Map Studio — Draw, Route, Heatmap, Cluster, Measure, GeoJSON, Multi-layer | Universe Invedors</title>
+<title>Map Studio ï¿½ Draw, Route, Heatmap, Cluster, Measure, GeoJSON, Multi-layer | Universe Invedors</title>
 <meta name="description" content="Free online map studio using Leaflet. Draw markers, polylines, polygons, circles. Plan routes with OSRM. Render heatmaps, cluster markers. Edit GeoJSON, measure distances and areas."/>
 <meta name="keywords" content="online map builder,draw on map,Leaflet map editor,GeoJSON editor,heatmap tool online,route planner,measure distance map,marker clustering,OpenStreetMap tools"/>
 <link rel="canonical" href="https://map.universeinvedors.tech/"/>
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large"/>
 <meta name="author" content="Universe Invedors"/>
-<meta property="og:title" content="Map Studio — Draw, Route, Heatmap, GeoJSON — Free Online"/>
+<meta property="og:title" content="Map Studio ï¿½ Draw, Route, Heatmap, GeoJSON ï¿½ Free Online"/>
 <meta property="og:description" content="Leaflet-based map studio. Draw features, plan routes, render heatmaps, edit GeoJSON, measure distances."/>
 <meta property="og:url" content="https://map.universeinvedors.tech/"/>
 <meta property="og:type" content="website"/>
@@ -111,6 +111,9 @@ input[type=range]{accent-color:var(--accent);width:100%}
 .seo-footer,.tool-footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.4rem .9rem;padding:.6rem 1rem;border-top:1px solid var(--border);background:var(--bg-surface);font-size:.7rem;color:var(--text-3);flex-shrink:0}
 .seo-footer a,.tool-footer a{color:var(--text-3)}.seo-footer a:hover,.tool-footer a:hover{color:var(--text-2);text-decoration:none}
 .sf-links,.tool-footer-links{display:flex;flex-wrap:wrap;gap:.25rem .65rem}
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"HowTo","name":"How to create interactive maps with markers and routes online","description":"Add markers, draw shapes, plan routes, render heatmaps, measure distances, and export GeoJSON â€” free online map builder.","step":[{"@type":"HowToStep","position":1,"name":"Open a map mode","text":"Choose Markers, Draw, Route, Heatmap, GeoJSON, or Measure from the sidebar tabs."},{"@type":"HowToStep","position":2,"name":"Add markers or features","text":"Click Add Marker, enter a title, and click on the map to place it. Draw tools let you add polylines, polygons, and circles."},{"@type":"HowToStep","position":3,"name":"Search for a location","text":"Type any address or place name in the search box and the map flies to that location automatically."},{"@type":"HowToStep","position":4,"name":"Export your map","text":"Click Export GeoJSON or Export CSV to download all markers and shapes for use in any GIS application."}]}</script>
+
 </head>
 <body>
 <header class="topbar">
@@ -250,7 +253,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
 
       <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.35rem">
         <input type="checkbox" id="unit-imperial" onchange="updateMeasureDisplay()"/>
-        <label for="unit-imperial" style="font-size:.72rem;cursor:pointer">Imperial (miles/ft²)</label>
+        <label for="unit-imperial" style="font-size:.72rem;cursor:pointer">Imperial (miles/ftï¿½)</label>
       </div>
 
       <div id="measure-result" class="meas-result" style="display:none">
@@ -276,30 +279,59 @@ input[type=range]{accent-color:var(--accent);width:100%}
 
 <!-- STATUS BAR -->
 <div class="statusbar">
-  <span id="sb-coords">0.0000°N, 0.0000°E</span>
-  <span class="sb-sep">·</span>
+  <span id="sb-coords">0.0000ï¿½N, 0.0000ï¿½E</span>
+  <span class="sb-sep">ï¿½</span>
   <span id="sb-zoom">Zoom: 3</span>
-  <span class="sb-sep">·</span>
+  <span class="sb-sep">ï¿½</span>
   <span id="sb-objects">0 features</span>
-  <span class="sb-sep">·</span>
+  <span class="sb-sep">ï¿½</span>
   <span id="sb-tool-active">Tool: Select</span>
 </div>
 
 <!-- FOOTER -->
-<footer class="seo-footer">
-  <div class="sf-links">
-    <a href="https://universeinvedors.tech">Universe Invedors</a>
-    <a href="https://universeinvedors.tech/tools">All Tools</a>
-    <a href="https://code.universeinvedors.tech">Code IDE</a>
-    <a href="https://diagram.universeinvedors.tech">Diagrams</a>
-    <a href="https://chart.universeinvedors.tech">Charts</a>
-    <a href="https://ocr.universeinvedors.tech">OCR</a>
-    <a href="https://pdf.universeinvedors.tech">PDF Suite</a>
-    <a href="https://image.universeinvedors.tech">Image Studio</a>
-    <a href="https://3d.universeinvedors.tech">3D Studio</a>
-    <a href="https://media.universeinvedors.tech">Media Studio</a>
+<section style="max-width:900px;margin:0 auto;padding:2.5rem 1rem 1.5rem;border-top:1px solid rgba(255,255,255,.07)">
+  <h1 style="font-size:1.55rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.5rem;color:#f0f4ff">Map Studio ï¿½ Free Interactive Map Builder with Markers, Routes, Heatmaps &amp; GeoJSON</h1>
+  <p style="font-size:.88rem;color:#a8b8cf;line-height:1.7;margin-bottom:1.5rem">Create interactive maps online for free with Map Studio ï¿½ powered by Leaflet.js and OpenStreetMap. Add markers, draw shapes (polylines, polygons, circles), plan routes, render heatmaps from CSV data, measure distances and areas, edit GeoJSON, and export in multiple formats. No sign-up required.</p>
+  <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:.5rem;color:#f0f4ff">Map features</h2>
+  <ul style="font-size:.85rem;color:#a8b8cf;line-height:1.95;padding-left:1.2rem;margin-bottom:1.25rem"><li><strong style="color:#f0f4ff">Interactive Markers</strong> ï¿½ Add markers with custom titles, descriptions, and colours ï¿½ click to show popups</li><li><strong style="color:#f0f4ff">Route Planner</strong> ï¿½ Plan A-to-B routes using OSRM open-source routing engine</li><li><strong style="color:#f0f4ff">Heatmap</strong> ï¿½ Upload CSV with lat/lng coordinates to render a geographic heatmap layer</li><li><strong style="color:#f0f4ff">Marker Clustering</strong> ï¿½ Automatically groups nearby markers at zoom-out for clean map views</li><li><strong style="color:#f0f4ff">Distance &amp; Area Measurement</strong> ï¿½ Measure distances in km/miles and polygon areas in kmï¿½</li><li><strong style="color:#f0f4ff">6 Map Tile Layers</strong> ï¿½ OpenStreetMap, Satellite (ESRI), Terrain, Toner, Watercolour, Dark mode</li><li><strong style="color:#f0f4ff">GeoJSON Editor</strong> ï¿½ Edit raw GeoJSON and see it render live on the map</li><li><strong style="color:#f0f4ff">Export</strong> ï¿½ GeoJSON, KML, and CSV formats for use in any GIS application</li></ul>
+  <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:.5rem;color:#f0f4ff">Frequently Asked Questions</h2>
+  <div itemscope itemtype="https://schema.org/FAQPage">
+    <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" style="margin-bottom:.75rem"><h3 itemprop="name" style="font-size:.88rem;font-weight:700;color:#f0f4ff;margin-bottom:.25rem">How do I create a custom map with markers online?</h3><div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer"><p itemprop="text" style="font-size:.82rem;color:#a8b8cf;line-height:1.6">Open the Markers panel, click "Add marker", enter a title and description, then click the map to place it. Add as many markers as needed, then export as GeoJSON or CSV.</p></div></div>
+    <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" style="margin-bottom:.75rem"><h3 itemprop="name" style="font-size:.88rem;font-weight:700;color:#f0f4ff;margin-bottom:.25rem">How do I create a heatmap from data?</h3><div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer"><p itemprop="text" style="font-size:.82rem;color:#a8b8cf;line-height:1.6">Open the Heatmap panel and upload a CSV file with latitude and longitude columns. The heatmap renders automatically on the map using the Leaflet.heat plugin.</p></div></div>
+    <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" style="margin-bottom:.75rem"><h3 itemprop="name" style="font-size:.88rem;font-weight:700;color:#f0f4ff;margin-bottom:.25rem">Can I export maps as GeoJSON?</h3><div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer"><p itemprop="text" style="font-size:.82rem;color:#a8b8cf;line-height:1.6">Yes. All markers, drawn shapes, and route waypoints can be exported as GeoJSON or KML for use in QGIS, ArcGIS, Google Maps, Mapbox, or any other GIS application.</p></div></div>
   </div>
-  <span>© 2024 Universe Invedors · Map Studio · Leaflet.js · OpenStreetMap</span>
+</section>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I create a custom map with markers online?","acceptedAnswer":{"@type":"Answer","text":"Open Markers panel, click Add marker, enter title and description, click map to place it. Export as GeoJSON or CSV."}},{"@type":"Question","name":"How do I create a heatmap from data?","acceptedAnswer":{"@type":"Answer","text":"Upload a CSV with latitude and longitude columns in the Heatmap panel. The heatmap renders automatically."}},{"@type":"Question","name":"Can I export maps as GeoJSON?","acceptedAnswer":{"@type":"Answer","text":"Yes. Export markers and shapes as GeoJSON or KML for QGIS, ArcGIS, Google Maps, or Mapbox."}},{"@type":"Question","name":"What map tile layers are available?","acceptedAnswer":{"@type":"Answer","text":"OpenStreetMap, Satellite (ESRI), Terrain, Toner, Watercolour, and Dark mode tiles ï¿½ switch from the Settings panel."}},{"@type":"Question","name":"How do I measure distance on a map?","acceptedAnswer":{"@type":"Answer","text":"Open the Measure panel, click points on the map. Distance in km/miles is calculated automatically as you add points."}}]}</script>
+
+<footer class="seo-footer" style="flex-direction:column;align-items:flex-start;gap:.5rem">
+  <div style="width:100%">
+    <div class="sf-links" style="margin-bottom:.35rem">
+      <strong style="color:var(--text-2);font-size:.71rem;white-space:nowrap">Free tools:</strong>
+      <a href="https://calc.universeinvedors.tech">Free Online Calculators â€” BMI, EMI, GST, Percentage, Age</a>
+      <a href="https://json.universeinvedors.tech">JSON Studio â€” Format, Validate, Diff &amp; Convert JSON</a>
+      <a href="https://qr.universeinvedors.tech">QR Code Generator â€” URL, WiFi, vCard, SMS Free</a>
+      <a href="https://color.universeinvedors.tech">Color Picker, Palette Generator &amp; Gradient Maker</a>
+      <a href="https://text.universeinvedors.tech">Word Counter, Case Converter &amp; Text Tools Free</a>
+      <a href="https://code.universeinvedors.tech">Free Online Code IDE â€” 50+ Languages, AI Assist</a>
+      <a href="https://diagram.universeinvedors.tech">Online Diagram Maker â€” Flowcharts, ERD, UML, Sequence</a>
+      <a href="https://chart.universeinvedors.tech">Online Chart Builder â€” Chart.js, ECharts, Plotly</a>
+      <a href="https://ocr.universeinvedors.tech">Free OCR â€” Image to Text, PDF Text Extraction</a>
+      <a href="https://pdf.universeinvedors.tech">Free PDF Tools â€” Merge, Split, Watermark, Rotate</a>
+      <a href="https://image.universeinvedors.tech">Image Editor â€” Resize, Compress, Convert, Filter Free</a>
+      <a href="https://3d.universeinvedors.tech">3D Studio â€” GLTF Viewer, Scene Builder, Physics</a>
+      <a href="https://media.universeinvedors.tech">Media Studio â€” Screen Recorder, Waveform, Thumbnails</a>
+    </div>
+    <div class="sf-links" style="justify-content:space-between;width:100%">
+      <span>
+        <a href="https://universeinvedors.tech">Universe Invedors</a> Â· 
+        <a href="https://universeinvedors.tech/tools">All Free Tools</a> Â· 
+        <a href="https://universeinvedors.tech/services">AI &amp; Software Development</a> Â· 
+        <a href="https://universeinvedors.tech/about">About</a> Â· 
+        <a href="https://universeinvedors.tech/contact">Start a Project</a>
+      </span>
+      <span>Â© 2026 Universe Invedors Â· Interactive Map Builder â€” Markers, Routes, Heatmap, GeoJSON</span>
+    </div>
+  </div>
 </footer>
 
 <div class="toasts" id="toasts"></div>
@@ -311,12 +343,12 @@ input[type=range]{accent-color:var(--accent);width:100%}
 const map = L.map('map', { zoomControl: true }).setView([20, 0], 3);
 
 const TILES = {
-  osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution:'© OpenStreetMap', maxZoom:19 }),
-  dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution:'© CartoDB', maxZoom:19 }),
-  light: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution:'© CartoDB', maxZoom:19 }),
-  satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution:'© Esri', maxZoom:19 }),
-  topo: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { attribution:'© OpenTopoMap', maxZoom:17 }),
-  watercolor: L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg', { attribution:'© Stadia Maps', maxZoom:16 })
+  osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution:'ï¿½ OpenStreetMap', maxZoom:19 }),
+  dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution:'ï¿½ CartoDB', maxZoom:19 }),
+  light: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution:'ï¿½ CartoDB', maxZoom:19 }),
+  satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution:'ï¿½ Esri', maxZoom:19 }),
+  topo: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { attribution:'ï¿½ OpenTopoMap', maxZoom:17 }),
+  watercolor: L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg', { attribution:'ï¿½ Stadia Maps', maxZoom:16 })
 };
 TILES.dark.addTo(map);
 let currentTile = TILES.dark;
@@ -427,7 +459,7 @@ function addPolylinePoint(latlng) {
   if(polylinePoints.length > 1) {
     drawMode = L.polyline(polylinePoints, { color: document.getElementById('marker-color').value, weight:3 }).addTo(map);
     if(polylinePoints.length >= 2) {
-      drawMode.bindPopup('Line — double-click to finish');
+      drawMode.bindPopup('Line ï¿½ double-click to finish');
     }
   }
 }
@@ -531,7 +563,7 @@ async function searchPlace() {
     const {lat,lon,display_name} = data[0];
     map.setView([parseFloat(lat), parseFloat(lon)], 13);
     L.popup().setLatLng([parseFloat(lat), parseFloat(lon)]).setContent(display_name).openOn(map);
-    toast(display_name.substring(0,50)+'…','ok');
+    toast(display_name.substring(0,50)+'ï¿½','ok');
   } catch(e) { toast('Search failed: ' + e.message,'err'); }
 }
 
@@ -591,7 +623,7 @@ async function calculateRoute() {
       routeLayer = L.geoJSON(route.geometry, { style:{ color:'#5ee6a8', weight:4, opacity:0.8 } }).addTo(map);
       document.getElementById('route-result').style.display='block';
       document.getElementById('route-distance').textContent = `?? ${km} km`;
-      document.getElementById('route-duration').textContent = `?? ~${mins} min driving · ?? ~${Math.round(mins*3.5)} min walking`;
+      document.getElementById('route-duration').textContent = `?? ~${mins} min driving ï¿½ ?? ~${Math.round(mins*3.5)} min walking`;
       map.fitBounds(routeLayer.getBounds(), { padding:[20,20] });
     } else {
       throw new Error('No route found');
@@ -773,7 +805,7 @@ function updateMeasureDisplay() {
   // Area for polygon
   if(measurePoints.length >= 3) {
     const area = calcPolygonArea(measurePoints);
-    const areaStr = imperial ? (area/4046.86).toFixed(2)+' acres' : area < 1e6 ? area.toFixed(0)+' m²' : (area/1e6).toFixed(2)+' km²';
+    const areaStr = imperial ? (area/4046.86).toFixed(2)+' acres' : area < 1e6 ? area.toFixed(0)+' mï¿½' : (area/1e6).toFixed(2)+' kmï¿½';
     document.getElementById('meas-area').textContent = '? Area: ' + areaStr;
   }
 }
@@ -869,7 +901,7 @@ function clearAll() {
 map.on('mousemove', e => {
   const lat = e.latlng.lat.toFixed(4), lng = e.latlng.lng.toFixed(4);
   document.getElementById('coord-display').textContent = lat + ', ' + lng;
-  document.getElementById('sb-coords').textContent = Math.abs(lat)+'°'+(lat>=0?'N':'S')+', '+Math.abs(lng)+'°'+(lng>=0?'E':'W');
+  document.getElementById('sb-coords').textContent = Math.abs(lat)+'ï¿½'+(lat>=0?'N':'S')+', '+Math.abs(lng)+'ï¿½'+(lng>=0?'E':'W');
 });
 map.on('zoomend', () => {
   document.getElementById('sb-zoom').textContent = 'Zoom: ' + map.getZoom();
@@ -899,7 +931,7 @@ if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catc
 
 <!-- -- Guided Tour ------------------------------------ -->
 <script>
-window.__TOUR_STEPS__ = [{sel:".topbar-logo",title:"Welcome to Map Studio",body:"A Leaflet.js interactive map tool — draw markers, plan routes, render heatmaps, measure distances, export GeoJSON.",tip:"bottom"},{sel:".etabs",title:"7 map modes",body:"Markers, Draw shapes, Route planner, Heatmap, GeoJSON editor, Measure tool, and Settings — each in its own panel.",tip:"bottom"},{sel:".sidebar",title:"Map tools panel",body:"Add markers, geocode addresses, upload heatmap CSV data, or edit raw GeoJSON from the left sidebar.",tip:"right"},{sel:"#map",title:"Interactive map",body:"Click to add markers, drag to pan, scroll to zoom. Switch between 6 tile layers — street, satellite, terrain, dark — in Settings.",tip:"right"},{sel:".seo-footer",title:"Export your data",body:"Export all markers and drawn shapes as GeoJSON or CSV for use in any mapping library or GIS application.",tip:"top"}];
+window.__TOUR_STEPS__ = [{sel:".topbar-logo",title:"Welcome to Map Studio",body:"A Leaflet.js interactive map tool ï¿½ draw markers, plan routes, render heatmaps, measure distances, export GeoJSON.",tip:"bottom"},{sel:".etabs",title:"7 map modes",body:"Markers, Draw shapes, Route planner, Heatmap, GeoJSON editor, Measure tool, and Settings ï¿½ each in its own panel.",tip:"bottom"},{sel:".sidebar",title:"Map tools panel",body:"Add markers, geocode addresses, upload heatmap CSV data, or edit raw GeoJSON from the left sidebar.",tip:"right"},{sel:"#map",title:"Interactive map",body:"Click to add markers, drag to pan, scroll to zoom. Switch between 6 tile layers ï¿½ street, satellite, terrain, dark ï¿½ in Settings.",tip:"right"},{sel:".seo-footer",title:"Export your data",body:"Export all markers and drawn shapes as GeoJSON or CSV for use in any mapping library or GIS application.",tip:"top"}];
 </script>
 <script>
 (function(){
@@ -1067,7 +1099,7 @@ window.__TOUR_STEPS__ = [{sel:".topbar-logo",title:"Welcome to Map Studio",body:
 </body>
 </html>
 <script>
-// GA4 Custom Events — Map Builder
+// GA4 Custom Events ï¿½ Map Builder
 (function(){
   // Track map layer/tile switches
   document.querySelectorAll('.tab,.et,[data-layer]').forEach(function(tab){
