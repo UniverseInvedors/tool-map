@@ -128,18 +128,18 @@ input[type=range]{accent-color:var(--accent);width:100%}
   </a>
   <div class="topbar-sep"></div>
   <div class="etabs">
-    <button class="et active" onclick="switchMode('builder',this)">?? Map Builder</button>
-    <button class="et" onclick="switchMode('route',this)">?? Route Planner</button>
-    <button class="et" onclick="switchMode('heatmap',this)">?? Heatmap</button>
+    <button class="et active" onclick="switchMode('builder',this)">Map Builder</button>
+    <button class="et" onclick="switchMode('route',this)">Route Planner</button>
+    <button class="et" onclick="switchMode('heatmap',this)">Heatmap</button>
     <button class="et" onclick="switchMode('geojson',this)">{ } GeoJSON</button>
-    <button class="et" onclick="switchMode('measure',this)">?? Measure</button>
+    <button class="et" onclick="switchMode('measure',this)">Measure</button>
   </div>
   <div class="sp"></div>
   <div style="display:flex;gap:.35rem">
-    <button class="btn bg bsm" onclick="clearAll()">?? Clear</button>
-    <button class="btn bg bsm" onclick="exportGeoJSON()">? GeoJSON</button>
-    <button class="btn bg bsm" onclick="exportCSV()">? CSV</button>
-    <button class="btn bg bsm" onclick="exportKML()">? KML</button>
+    <button class="btn bg bsm" onclick="clearAll()">Clear</button>
+    <button class="btn bg bsm" onclick="exportGeoJSON()">GeoJSON</button>
+    <button class="btn bg bsm" onclick="exportCSV()">CSV</button>
+    <button class="btn bg bsm" onclick="exportKML()">KML</button>
   </div>
   <button class="tour-btn" onclick="startTour()" aria-label="Start guided tour" title="Take a quick tour"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Tour</button>
 </header>
@@ -158,12 +158,12 @@ input[type=range]{accent-color:var(--accent);width:100%}
 
       <div class="sec">Draw Tool</div>
       <div class="tool-grid">
-        <div class="tool-btn" id="tool-marker" onclick="setTool('marker',this)">?? Marker</div>
-        <div class="tool-btn" id="tool-polyline" onclick="setTool('polyline',this)">? Line</div>
-        <div class="tool-btn" id="tool-polygon" onclick="setTool('polygon',this)">? Polygon</div>
-        <div class="tool-btn" id="tool-circle" onclick="setTool('circle',this)">? Circle</div>
-        <div class="tool-btn" id="tool-rectangle" onclick="setTool('rectangle',this)">? Rect</div>
-        <div class="tool-btn active" id="tool-select" onclick="setTool('select',this)">? Select</div>
+        <div class="tool-btn" id="tool-marker" onclick="setTool('marker',this)">Marker</div>
+        <div class="tool-btn" id="tool-polyline" onclick="setTool('polyline',this)">Line</div>
+        <div class="tool-btn" id="tool-polygon" onclick="setTool('polygon',this)">Polygon</div>
+        <div class="tool-btn" id="tool-circle" onclick="setTool('circle',this)">Circle</div>
+        <div class="tool-btn" id="tool-rectangle" onclick="setTool('rectangle',this)">Rect</div>
+        <div class="tool-btn active" id="tool-select" onclick="setTool('select',this)">Select</div>
       </div>
 
       <div class="sec">Marker Color</div>
@@ -188,7 +188,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
       <div id="layer-list" style="max-height:140px;overflow-y:auto"></div>
 
       <div class="sec">Import</div>
-      <button class="btn bg bsm" onclick="document.getElementById('geojson-import').click()" style="width:100%;margin-bottom:.3rem">?? Import GeoJSON</button>
+      <button class="btn bg bsm" onclick="document.getElementById('geojson-import').click()" style="width:100%;margin-bottom:.3rem">Import GeoJSON</button>
       <input type="file" id="geojson-import" accept=".json,.geojson" style="display:none" onchange="importGeoJSONFile(this.files[0]);this.value=''"/>
     </div>
 
@@ -202,8 +202,8 @@ input[type=range]{accent-color:var(--accent);width:100%}
       <div style="font-size:.7rem;color:var(--t3);margin-bottom:.35rem">Or click the map to add waypoints</div>
       <div id="waypoint-list"></div>
       <div class="grid-2" style="margin-top:.35rem">
-        <button class="btn bg bsm" onclick="calculateRoute()">?? Route (OSRM)</button>
-        <button class="btn bg bsm" onclick="clearRoute()">?? Clear</button>
+        <button class="btn bg bsm" onclick="calculateRoute()">Route (OSRM)</button>
+        <button class="btn bg bsm" onclick="clearRoute()">Clear</button>
       </div>
       <div id="route-result" style="display:none" class="meas-result" style="margin-top:.5rem">
         <div id="route-distance" style="font-weight:700"></div>
@@ -215,9 +215,9 @@ input[type=range]{accent-color:var(--accent);width:100%}
     <div class="spanel" id="panel-heatmap">
       <div class="sec">Import CSV</div>
       <div style="font-size:.7rem;color:var(--t3);margin-bottom:.35rem;line-height:1.4">CSV format: <code style="background:var(--inp);padding:.1rem .25rem;border-radius:3px;font-size:.68rem">lat,lng,intensity</code> (header optional)</div>
-      <button class="btn bp bsm" onclick="document.getElementById('csv-import').click()" style="width:100%;margin-bottom:.35rem">?? Import CSV</button>
+      <button class="btn bp bsm" onclick="document.getElementById('csv-import').click()" style="width:100%;margin-bottom:.35rem">Import CSV</button>
       <input type="file" id="csv-import" accept=".csv,.txt" style="display:none" onchange="importCSVHeatmap(this.files[0]);this.value=''"/>
-      <button class="btn bg bsm" onclick="loadSampleHeatmap()" style="width:100%;margin-bottom:.35rem">?? Load Sample Data</button>
+      <button class="btn bg bsm" onclick="loadSampleHeatmap()" style="width:100%;margin-bottom:.35rem">Load Sample Data</button>
 
       <div class="sec">Settings</div>
       <label class="fl">Radius <span id="v-hr">25</span></label>
@@ -234,22 +234,22 @@ input[type=range]{accent-color:var(--accent);width:100%}
       <div class="sec">GeoJSON Editor</div>
       <textarea class="fta" id="geojson-editor" rows="10" placeholder='{"type":"FeatureCollection","features":[]}' oninput="previewGeoJSON()"></textarea>
       <div class="grid-2" style="margin-bottom:.35rem">
-        <button class="btn bg bsm" onclick="validateGeoJSON()">? Validate</button>
-        <button class="btn bg bsm" onclick="prettyPrintGeoJSON()">? Prettify</button>
+        <button class="btn bg bsm" onclick="validateGeoJSON()">Validate</button>
+        <button class="btn bg bsm" onclick="prettyPrintGeoJSON()">Prettify</button>
       </div>
       <div class="grid-2">
-        <button class="btn bp bsm" onclick="renderGeoJSON()">? Render</button>
-        <button class="btn bg bsm" onclick="loadCurrentAsGeoJSON()">? From Map</button>
+        <button class="btn bp bsm" onclick="renderGeoJSON()">Render</button>
+        <button class="btn bg bsm" onclick="loadCurrentAsGeoJSON()">From Map</button>
       </div>
-      <button class="btn bg bsm" onclick="loadGeoJSONFromURL()" style="width:100%;margin-top:.3rem">?? Load from URL</button>
+      <button class="btn bg bsm" onclick="loadGeoJSONFromURL()" style="width:100%;margin-top:.3rem">Load from URL</button>
       <div id="geojson-status" style="font-size:.7rem;color:var(--t3);margin-top:.3rem"></div>
     </div>
 
     <!-- MEASURE PANEL -->
     <div class="spanel" id="panel-measure">
       <div class="sec">Measurement Tool</div>
-      <button class="btn bp bsm" id="measure-btn" onclick="toggleMeasure()" style="width:100%;margin-bottom:.35rem">?? Start Measuring</button>
-      <button class="btn bg bsm" onclick="clearMeasure()" style="width:100%;margin-bottom:.35rem">?? Clear</button>
+      <button class="btn bp bsm" id="measure-btn" onclick="toggleMeasure()" style="width:100%;margin-bottom:.35rem">Start Measuring</button>
+      <button class="btn bg bsm" onclick="clearMeasure()" style="width:100%;margin-bottom:.35rem">Clear</button>
 
       <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.35rem">
         <input type="checkbox" id="unit-imperial" onchange="updateMeasureDisplay()"/>
